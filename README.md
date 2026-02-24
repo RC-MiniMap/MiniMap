@@ -207,11 +207,16 @@ _(not set up yet — will update this when the server is ready)_
 
 ---
 
-## TODO — First Week
+## TODO — Second Week
 
-- [ ] **Learn how to use `uv` package manager** — [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
-- [ ] **Learn how to use VSCode**
-- [ ] **Learn Python** — [freecodecamp.org](https://www.freecodecamp.org/)
+- [ ] **Learn how to use `uv` package manager** — [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/) (Don't have to know much, just really useful for managing python versions and dependencies, and running python files.)
+- [x] **Learn how to use VSCode**
+- [ ] **Keep learning Python** — [freecodecamp.org](https://www.freecodecamp.org/)
 - [ ] **Learn how Git works** — [git branching game](https://learngitbranching.js.org/?locale=en_US)
+- [ ] **Learn about WSL** -- Very helpful for developing on windows.
+- [ ] **Learn about pull requests**
+
+Goal for the second week is to understand more about python so we can start developing, and to understand how to work together using git branches.
+Next week we will get started coding, after we are all comfortable with the tools above.
 
 > **Note:** Git and GitHub are different. Focus on understanding `clone`, `add`, `commit`, `push`, and `pull` — those five commands cover 90% of what we'll use.
