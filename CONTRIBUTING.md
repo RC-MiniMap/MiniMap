@@ -137,7 +137,7 @@ Avoid:
 
 ```bash
 git push -u origin your-branch-name
-# Pushes your branch to github
+# Pushes your branch to GitHub
 ```
 
 ### 2) Open a pull request into `main`
