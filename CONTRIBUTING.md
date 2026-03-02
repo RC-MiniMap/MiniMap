@@ -78,7 +78,10 @@ git commit -m "Add validation when start and end room match"
 ### End of session
 
 ```bash
-git merge main
+git checkout main
+git pull origin main # pulls latest changes from remote repo
+git checkout your-branch-name # switch back to your branch
+git merge main # merge updated main branch into your branch
 git push -u origin your-branch-name   # first push, updates your branch to remote repository on github
 # later pushes can just be:
 git push
@@ -106,6 +109,7 @@ Recommended:
 
 ### Commit often
 
+- Commit after tiny, working changes.
 
 
 ### Commit messages should describe intent
@@ -154,7 +158,11 @@ Include details about what changed and why
 
 ### 4) Review with someone
 
-Make sure that the code is good code, it works, and that there are no conflicts.
+Before approving the PR, confirm that:
+- The code is working, tests pass
+- You and the reviewer both understand the change
+- There are no merge conflicts with `main`
+
 
 ### 5) Merge PR (no direct commits to `main`)
 
