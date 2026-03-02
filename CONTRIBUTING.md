@@ -28,7 +28,7 @@ This document explains how we will contribute together in this project.
 
 `main` should always stay stable.
 
-### 2) One branch per feature or person
+### 2) One branch per feature
 
 Use one branch for one feature.
 
@@ -82,7 +82,7 @@ git checkout main
 git pull origin main # pulls latest changes from remote repo
 git checkout your-branch-name # switch back to your branch
 git merge main # merge updated main branch into your branch
-git push -u origin your-branch-name   # first push, updates your branch to remote repository on github
+git push -u origin your-branch-name   # first push, updates your branch to remote repository on GitHub
 # later pushes can just be:
 git push
 ```
