@@ -1,0 +1,37 @@
+[
+  {
+    "id": "room_101",
+    "name": "Room 101",
+    "type": "room",
+    "coords": [100, 200],
+    "floor": 1
+  },
+  {
+    "id": "door_101",
+    "name": "Doorway 101",
+    "type": "waypoint",
+    "coords": [150, 200],
+    "floor": 1
+  },
+  {
+    "id": "hallway_corner",
+    "name": "Hallway Corner",
+    "type": "waypoint",
+    "coords": [150, 400],
+    "floor": 1
+  },
+  {
+    "id": "door_102",
+    "name": "Doorway 102",
+    "type": "waypoint",
+    "coords": [300, 400],
+    "floor": 1
+  },
+  {
+    "id": "room_102",
+    "name": "Room 102",
+    "type": "room",
+    "coords": [300, 450],
+    "floor": 1
+  }
+]
