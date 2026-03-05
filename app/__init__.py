@@ -6,6 +6,6 @@ def create_app():
     # Import and register routes
     from app import routes
     app.register_blueprint(routes.bp)
-   #app.register_blueprint(routes.api_bp)  # ability to simply add more routes in the future
+    # To add additional blueprints (e.g., api_bp), register them here.
 
     return app
