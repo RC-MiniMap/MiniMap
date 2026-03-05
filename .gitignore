@@ -1,2 +1,8 @@
 # irrelevant mac related file
 .DS_Store
+
+# python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
