@@ -1,0 +1,14 @@
+[
+  {
+    "source": "room_101",
+    "target": "door_101",
+    "weight": 5,
+    "instruction": "Walk to the door of Room 101."
+  },
+  {
+    "source": "door_101",
+    "target": "hallway_corner",
+    "weight": 20,
+    "instruction": "Exit Room 101 and turn RIGHT into the hallway."
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "room_101",
+    "name": "Room 101",
+    "type": "room",
+    "coords": [100, 150],
+    "floor": 1
+  },
+  {
+    "id": "door_101",
+    "name": "Doorway 101",
+    "type": "waypoint",
+    "coords": [150, 200],
+    "floor": 1
+  }
+]
