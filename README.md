@@ -29,10 +29,22 @@ Each instruction can be dismissed as you go, similar to how Google Maps lets you
 
 ### How the Pathfinding Works
 
-The building is modeled as a **graph** — locations are **nodes** and the walking paths between them are **edges**. Every node stores two things:
+The building is modeled as a **graph** — locations are **nodes** and the walking paths between them are **edges**. Every node stores five things:
 
-1. A text instruction (e.g., `"Turn left at the staircase"`)
-2. Pixel coordinates on the floor plan image (e.g., `x=300, y=150`)
+1. **id** — a unique identifier for the node (e.g., `"room_101"`), used to reference it in edges and routing queries
+2. **name** — the human-readable label (e.g., `"Room 101"` or `"Main Staircase"`), displayed in directions
+3. **type** — the category of location (e.g., `"room"`, `"staircase"`, `"entrance"`), used to filter and categorize nodes
+4. **coords** — the pixel coordinates `[x, y]` on the floor plan image, used to draw the blue route line
+5. **floor** — the floor number the node is on, allowing multi-floor pathfinding and filtering
+
+Each edge stores 4 things:
+
+1. **source** — the starting node (e.g., `"door_101"`), where the path segment begins
+2. **target** — the ending node (e.g., `"hallway_corner"`), where the path segment ends
+3. **weight** — the distance or "cost" of traversing this edge (e.g., `20` pixels or steps), used by the shortest-path algorithm to find the optimal route
+4. **instruction** — the human-readable direction text (e.g., `"Exit Room 101 and turn RIGHT into the hallway."`), displayed to the user as a step in the directions
+
+> Keep in mind, there are 2 edges per connection between 2 nodes, and the instructions are different based on which direction you are going.
 
 When a user asks for directions, `NetworkX` runs a shortest-path algorithm across the graph and returns a list of nodes. From that one list, we produce both the step-by-step text directions _and_ the visual blue line — the coordinates are already stored in the nodes.
 
