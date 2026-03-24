@@ -14,9 +14,16 @@
     "floor": 1
   },
   {
+    "id": "hallway_corner",
+    "name": "Hallway Corner",
+    "type": "waypoint",
+    "coords": [160, 200],
+    "floor": 1
+  },
+  {
     "id": "room_102",
     "name": "Room 102",
-    "type": "Room",
+    "type": "room",
     "coords": [100, 200],
     "floor": 1
   }
