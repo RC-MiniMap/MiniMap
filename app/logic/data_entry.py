@@ -29,6 +29,13 @@ def add_node():
     print("\n--- Add New Node ---")
 
     node_id = input("Enter Node ID (e.g., room_101): ").strip()
+
+    # Load existing nodes and enforce unique node IDs
+    nodes = load_json(NODES_FILE)
+    if any(node.get("id") == node_id for node in nodes):
+        print(f"Error: A node with ID '{node_id}' already exists. Please choose a different ID.\n")
+        return
+
     x = float(input("Enter X coordinate: ").strip())
     y = float(input("Enter Y coordinate: ").strip())
     label = input("Enter Label (e.g., Kitchen): ").strip()
@@ -43,7 +50,6 @@ def add_node():
         "floor": floor
     }
 
-    nodes = load_json(NODES_FILE)
     nodes.append(node)
     save_json(NODES_FILE, nodes)
 
@@ -59,6 +65,19 @@ def add_edge():
     target = input("Enter End Node ID: ").strip()
     weight = float(input("Enter Edge Weight (numeric cost): ").strip())
     instruction = input("Enter Instruction (optional): ").strip()
+
+    # Validate that source and target node IDs exist
+    nodes = load_json(NODES_FILE)
+    existing_ids = {node.get("id") for node in nodes}
+
+    missing = [nid for nid in (source, target) if nid not in existing_ids]
+    if missing:
+        print(
+            "Error: The following node ID(s) do not exist and cannot be used in an edge: "
+            + ", ".join(missing)
+            + "\n"
+        )
+        return
 
     edge = {
         "source": source,
