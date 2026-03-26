@@ -9,13 +9,13 @@
     "source": "door_101",
     "target": "hallway_corner",
     "weight": 20,
-    "instruction": "Exit Room 101 and turn RIGHT into the hallway."
+    "instruction": "Exit Room 101 and turn LEFT into the hallway."
   },
   {
     "source": "hallway_corner",
     "target": "door_102",
     "weight": 15,
-    "instruction": "At the corner, turn LEFT and walk toward Room 102."
+    "instruction": "At the corner, turn RIGHT and walk toward Room 102."
   },
   {
     "source": "door_102",
@@ -33,18 +33,18 @@
     "source": "door_102",
     "target": "hallway_corner",
     "weight": 15,
-    "instruction": "Exit Room 102 and turn LEFT toward the hallway corner."
+    "instruction": "Exit Room 102 and turn RIGHT toward the hallway corner."
   },
   {
     "source": "hallway_corner",
     "target": "door_101",
     "weight": 20,
-    "instruction": "At the corner, turn RIGHT and walk toward Room 101."
+    "instruction": "At the corner, turn LEFT and walk toward Room 101."
   },
   {
     "source": "door_101",
     "target": "room_101",
     "weight": 5,
-    "instruction": "Turn LEFT to enter Room 101."
+    "instruction": "Turn RIGHT to enter Room 101."
   }
 ]
