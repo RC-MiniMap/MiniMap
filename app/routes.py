@@ -17,11 +17,14 @@ def directions():
     if not entrance or not classroom:
         error = 'Missing entrance or classroom parameter'
     else:
-        result = get_directions(entrance, classroom)
-        if result == "No path found":
-            error = 'No path found'
-        else:
-            steps, coordinates = result
+        try:
+            result = get_directions(entrance, classroom)
+            if result == "No path found":
+                error = 'No path found'
+            else:
+                steps, coordinates = result
+        except RuntimeError as e:
+            error = str(e)
     return render_template('index.html', steps=steps, coordinates=coordinates, error=error)
 
 @bp.route('/api/test')
