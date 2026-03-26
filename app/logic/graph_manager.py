@@ -2,7 +2,6 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from app.logic.shortest_route import shortest_route
 from pathlib import Path
 
 # read the JSON files
@@ -36,18 +35,24 @@ def build_graph():
     # create a directed graph
     G = nx.DiGraph()
     # method to add nodes and edges
-    def add_nodes_and_edges():
-        for node in nodes_data:
-            node_id = node["id"]
-            G.add_node(node_id, **node)
-        for edge in edges_data:
-            G.add_edge(edge['source'], edge['target'], **edge)
-    add_nodes_and_edges()
-    return G, nodes_data, edges_data
+    for node in nodes_data:
+        node_id = node["id"]
+        G.add_node(node_id, **node)
+    for edge in edges_data:
+        G.add_edge(edge['source'], edge['target'], **edge)
+    return G
+
+
+def shortest_route(graph, start, end):
+    try:
+        return nx.shortest_path(graph, source=start, target=end, weight='weight')
+    except (nx.NetworkXNoPath, nx.NodeNotFound):
+        return None
 
 
 #method to get direction
-def get_directions(graph, start, end):
+def get_directions(start, end):
+    graph = build_graph()
     path = shortest_route(graph, start, end)
     if path is None:
         return "No path found"
@@ -65,7 +70,8 @@ def get_directions(graph, start, end):
 
 #builds photo of the graph
 def main():
-    G, nodes_data, edges_data = build_graph()
+    nodes_data, _ = read_json_files()
+    G = build_graph()
     # print(f"Successfully built graph!")
     # print(f"Nodes: {G.number_of_nodes()}")
     # print(f"Edges: {G.number_of_edges()}")
@@ -77,8 +83,8 @@ def main():
     #print(G.edges())
 
     # #calcs shortest path between room_101 and room_102
-    # print(shortest_route(G, 'room_101', 'room_102'))
-    print(get_directions(G, 'room_102', 'room_101'))
+    # print(shortest_route('room_101', 'room_102'))
+    print(get_directions('room_102', 'room_101'))
 
 if __name__ == "__main__":
     main()
