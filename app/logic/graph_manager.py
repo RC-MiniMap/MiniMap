@@ -2,7 +2,6 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from app.logic.shortest_route import shortest_route
 from pathlib import Path
 
 # read the JSON files
@@ -42,6 +41,13 @@ def build_graph():
     for edge in edges_data:
         G.add_edge(edge['source'], edge['target'], **edge)
     return G
+
+
+def shortest_route(graph, start, end):
+    try:
+        return nx.shortest_path(graph, source=start, target=end, weight='weight')
+    except (nx.NetworkXNoPath, nx.NodeNotFound):
+        return None
 
 
 #method to get direction
