@@ -26,8 +26,8 @@ NPB_5_S2,5.S2,NPB,5,staircase
 NPB_5_180,5.180,NPB,5,room
 NPB_5_130B_1,5.130B-1,NPB,5,room
 NPB_5_waypoint_1,Elevator Waypoint,NPB,5,waypoint
-NPB_5_waypoint_2, Waypoint 2,NPB,5,waypoint
-NPB_5_waypoint_3, Waypoint 3,NPB,5,waypoint
+NPB_5_waypoint_2,Waypoint 2,NPB,5,waypoint
+NPB_5_waypoint_3,Waypoint 3,NPB,5,waypoint
 NPB_5_spine_1,spine 1,NPB,5,spine
 NPB_5_spine_2,spine 2,NPB,5,spine
 NPB_5_spine_3,spine 3,NPB,5,spine
