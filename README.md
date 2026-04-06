@@ -33,7 +33,7 @@ The building is modeled as a **graph** — locations are **nodes** and the walki
 
 1. **id** — a unique identifier for the node (e.g., `"NPB_5_102"`), used to reference it in edges and routing queries
 2. **name** — the human-readable label (e.g., `"5.102"` or `"Main Staircase"`), displayed in directions
-3. **type** — the category of location (e.g., `"room"`, `"staircase"`, `"elevator"`, `"waypoint"`), used to filter and categorize nodes
+3. **type** — the category of location (e.g., `"room"`, `"staircase"`, `"elevator"`, `"waypoint"`, `"spine"`). A `"spine"` node represents a main hallway/backbone connector used to route movement through the building, and the field is used to filter and categorize nodes
 4. **building** — the building code (e.g., `"NPB"`), allowing multi-building support
 5. **coords** — the pixel coordinates `[x, y]` on the floor plan image, used to draw the blue route line
 6. **floor** — the floor number the node is on, allowing multi-floor pathfinding and filtering
