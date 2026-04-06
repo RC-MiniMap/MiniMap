@@ -4,7 +4,10 @@
     "name": "5.102",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      0,
+      -12
+    ],
     "floor": 5
   },
   {
@@ -12,7 +15,10 @@
     "name": "5.E1",
     "type": "elevator",
     "building": "NPB",
-    "coords": [0, 0],
+    "coords": [
+      0,
+      0
+    ],
     "floor": 5
   },
   {
@@ -20,7 +26,10 @@
     "name": "5.106",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      5,
+      10
+    ],
     "floor": 5
   },
   {
@@ -28,7 +37,10 @@
     "name": "5.122",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      5,
+      14
+    ],
     "floor": 5
   },
   {
@@ -36,7 +48,10 @@
     "name": "5.108",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -44,7 +59,10 @@
     "name": "5.110",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -52,7 +70,10 @@
     "name": "5.S1",
     "type": "staircase",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -60,7 +81,10 @@
     "name": "5.102-1",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -68,7 +92,10 @@
     "name": "5.126-1",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -76,7 +103,10 @@
     "name": "5.140A",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -84,7 +114,10 @@
     "name": "5.140",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -92,7 +125,10 @@
     "name": "Main Stairs",
     "type": "staircase",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -100,7 +136,10 @@
     "name": "5.130",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -108,7 +147,10 @@
     "name": "5.146",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -116,7 +158,10 @@
     "name": "5.140-1",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -124,7 +169,10 @@
     "name": "5.180-A",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -132,7 +180,10 @@
     "name": "5.148",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -140,7 +191,10 @@
     "name": "5.150",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -148,7 +202,10 @@
     "name": "5.154",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -156,7 +213,10 @@
     "name": "5.156",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -164,7 +224,10 @@
     "name": "5.152",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -172,7 +235,10 @@
     "name": "5.E3",
     "type": "elevator",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -180,7 +246,10 @@
     "name": "5.S2",
     "type": "staircase",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -188,7 +257,10 @@
     "name": "5.180",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -196,7 +268,10 @@
     "name": "5.130B-1",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -204,7 +279,10 @@
     "name": "Elevator Waypoint",
     "type": "waypoint",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      0,
+      12
+    ],
     "floor": 5
   },
   {
@@ -212,7 +290,10 @@
     "name": "Waypoint 2",
     "type": "waypoint",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -220,7 +301,10 @@
     "name": "Waypoint 3",
     "type": "waypoint",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -228,7 +312,10 @@
     "name": "spine 1",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -236,7 +323,10 @@
     "name": "spine 2",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -244,7 +334,10 @@
     "name": "spine 3",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -252,7 +345,10 @@
     "name": "spine 4",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -260,7 +356,10 @@
     "name": "spine 5",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -268,7 +367,10 @@
     "name": "spine 6",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -276,7 +378,10 @@
     "name": "spine 7",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -284,7 +389,10 @@
     "name": "spine 8",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -292,7 +400,10 @@
     "name": "spine 9",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -300,7 +411,10 @@
     "name": "spine 10",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -308,7 +422,10 @@
     "name": "spine 11",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -316,7 +433,10 @@
     "name": "spine 12",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -324,7 +444,10 @@
     "name": "spine 13",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -332,7 +455,10 @@
     "name": "spine 14",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -340,7 +466,10 @@
     "name": "spine 15",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -348,7 +477,10 @@
     "name": "spine 16",
     "type": "spine",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   },
   {
@@ -356,7 +488,10 @@
     "name": "5.102-2",
     "type": "room",
     "building": "NPB",
-    "coords": [null, null],
+    "coords": [
+      null,
+      null
+    ],
     "floor": 5
   }
 ]

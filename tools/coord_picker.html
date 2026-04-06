@@ -76,12 +76,8 @@
 <div id="toolbar">
   <h1>Coord Picker</h1>
 
-  <label>floors.json:
-    <input type="file" id="floors-input" accept=".json" />
-  </label>
-
-  <label>nodes.json:
-    <input type="file" id="json-input" accept=".json" />
+  <label>Data folder:
+    <input type="file" id="data-dir" webkitdirectory />
   </label>
 
   <label>Image (optional):
@@ -99,7 +95,7 @@
   <button id="btn-load">Load</button>
   <button id="btn-save" disabled>Save nodes.json</button>
 
-  <span id="status">Load floors.json and nodes.json to begin.</span>
+  <span id="status">Select the data/ folder to begin.</span>
 </div>
 
 <div id="main">
@@ -160,27 +156,24 @@
 
   // ── File loaders ──────────────────────────────────────────────────────────
 
-  document.getElementById('floors-input').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    readJSON(file, (data) => {
-      floorsData = data;
-      tryUpdateFloorMeta();
-      setStatus('floors.json loaded.');
-    });
-  });
+  document.getElementById('data-dir').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    const floorsFile = files.find(f => f.name === 'floors.json');
+    const nodesFile  = files.find(f => f.name === 'nodes.json');
+    if (!floorsFile) { setStatus('No floors.json found in selected folder.'); return; }
+    if (!nodesFile)  { setStatus('No nodes.json found in selected folder.');  return; }
 
-  document.getElementById('json-input').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    readJSON(file, (data) => {
-      nodes = data;
+    let pending = 2;
+    function onBothLoaded() {
+      if (--pending > 0) return;
       btnSave.disabled = false;
       tryUpdateFloorMeta();
       renderList();
       redraw();
-      setStatus(`Loaded ${nodes.length} nodes.`);
-    });
+      setStatus(`Loaded ${nodes.length} nodes from data/.`);
+    }
+    readJSON(floorsFile, (data) => { floorsData = data; onBothLoaded(); });
+    readJSON(nodesFile,  (data) => { nodes = data;      onBothLoaded(); });
   });
 
   document.getElementById('img-input').addEventListener('change', (e) => {
