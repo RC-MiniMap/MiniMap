@@ -7,6 +7,7 @@ NPB_5_108,5.108,NPB,5,room
 NPB_5_110,5.110,NPB,5,room
 NPB_5_S1,5.S1,NPB,5,staircase
 NPB_5_102_1,5.102-1,NPB,5,room
+NPB_5_102_2,5.102-2,NPB,5,room
 NPB_5_126_1,5.126-1,NPB,5,room
 NPB_5_140A,5.140A,NPB,5,room
 NPB_5_140,5.140,NPB,5,room
@@ -27,3 +28,19 @@ NPB_5_130B_1,5.130B-1,NPB,5,room
 NPB_5_waypoint_1,Elevator Waypoint,NPB,5,waypoint
 NPB_5_waypoint_2, Waypoint 2,NPB,5,waypoint
 NPB_5_waypoint_3, Waypoint 3,NPB,5,waypoint
+NPB_5_spine_1,spine 1,NPB,5,spine
+NPB_5_spine_2,spine 2,NPB,5,spine
+NPB_5_spine_3,spine 3,NPB,5,spine
+NPB_5_spine_4,spine 4,NPB,5,spine
+NPB_5_spine_5,spine 5,NPB,5,spine
+NPB_5_spine_6,spine 6,NPB,5,spine
+NPB_5_spine_7,spine 7,NPB,5,spine
+NPB_5_spine_8,spine 8,NPB,5,spine
+NPB_5_spine_9,spine 9,NPB,5,spine
+NPB_5_spine_10,spine 10,NPB,5,spine
+NPB_5_spine_11,spine 11,NPB,5,spine
+NPB_5_spine_12,spine 12,NPB,5,spine
+NPB_5_spine_13,spine 13,NPB,5,spine
+NPB_5_spine_14,spine 14,NPB,5,spine
+NPB_5_spine_15,spine 15,NPB,5,spine
+NPB_5_spine_16,spine 16,NPB,5,spine

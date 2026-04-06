@@ -237,9 +237,11 @@
       ctx.fillStyle = '#fff';
       ctx.strokeStyle = 'rgba(0,0,0,0.6)';
       ctx.lineWidth = 3;
+      ctx.textAlign = 'center';
       const label = node.name || node.id;
-      ctx.strokeText(label, x + 12, y + 4);
-      ctx.fillText(label, x + 12, y + 4);
+      ctx.strokeText(label, x, y - 14);
+      ctx.fillText(label, x, y - 14);
+      ctx.textAlign = 'left';
     });
   }
 
