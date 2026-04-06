@@ -5,8 +5,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      471,
+      487
     ],
     "floor": 5
   },
@@ -16,8 +16,8 @@
     "type": "elevator",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      470,
+      427
     ],
     "floor": 5
   },
@@ -27,8 +27,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      543,
+      387
     ],
     "floor": 5
   },
@@ -38,8 +38,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      542,
+      340
     ],
     "floor": 5
   },
@@ -49,8 +49,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      640,
+      391
     ],
     "floor": 5
   },
@@ -60,8 +60,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      692,
+      391
     ],
     "floor": 5
   },
@@ -71,8 +71,8 @@
     "type": "staircase",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      754,
+      396
     ],
     "floor": 5
   },
@@ -82,8 +82,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      822,
+      364
     ],
     "floor": 5
   },
@@ -93,8 +93,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      368,
+      393
     ],
     "floor": 5
   },
@@ -104,8 +104,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      252,
+      386
     ],
     "floor": 5
   },
@@ -115,8 +115,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      217,
+      386
     ],
     "floor": 5
   },
@@ -126,8 +126,8 @@
     "type": "staircase",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      145,
+      296
     ],
     "floor": 5
   },
@@ -137,8 +137,8 @@
     "type": "room",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      216,
+      310
     ],
     "floor": 5
   },
@@ -280,8 +280,8 @@
     "type": "waypoint",
     "building": "NPB",
     "coords": [
-      0,
-      0
+      470,
+      372
     ],
     "floor": 5
   },
@@ -304,6 +304,193 @@
     "coords": [
       0,
       0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_1",
+    "name": "spine 1",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      543,
+      367
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_2",
+    "name": "spine 2",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      591,
+      369
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_3",
+    "name": "spine 3",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      639,
+      368
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_4",
+    "name": "spine 4",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      694,
+      368
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_5",
+    "name": "spine 5",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      753,
+      366
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_6",
+    "name": "spine 6",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      369,
+      367
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_7",
+    "name": "spine 7",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      254,
+      358
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_8",
+    "name": "spine 8",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      217,
+      356
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_9",
+    "name": "spine 9",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      146,
+      355
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_10",
+    "name": "spine 10",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_11",
+    "name": "spine 11",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_12",
+    "name": "spine 12",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_13",
+    "name": "spine 13",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_14",
+    "name": "spine 14",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_15",
+    "name": "spine 15",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_16",
+    "name": "spine 16",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_102_2",
+    "name": "5.102-2",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      591,
+      338
     ],
     "floor": 5
   }
