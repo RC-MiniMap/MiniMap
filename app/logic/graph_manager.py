@@ -70,7 +70,7 @@ def get_directions(start, end):
     coordinates = []
     for i in range(len(path)):
         current_node_id = path[i]
-        current_node = graph.nodes[current_node_id]
+        current_node = G.nodes[current_node_id]
 
         coordinates.append({
             "x": current_node["coords"][0],
@@ -82,8 +82,8 @@ def get_directions(start, end):
             break
 
         next_node_id = path[i+1]
-        next_node = graph.nodes[next_node_id]
-        edge_data = graph.get_edge_data(current_node_id, next_node_id)
+        next_node = G.nodes[next_node_id]
+        edge_data = G.get_edge_data(current_node_id, next_node_id)
 
         #Detects when route changes floors
         #Staircases are treated as nodes and act as a transition point between floors, so we can check if the next node is a staircase and if the floor changes
@@ -94,7 +94,7 @@ def get_directions(start, end):
             else:
                 directions.append(f"Move from floor {current_node['floor']} to floor {next_node['floor']}.")
         else:
-            directions.append(edge_data["instructions"])
+            directions.append(edge_data["instruction"])
             
         if start == end:
             directions.append("You are already at your destination.")
