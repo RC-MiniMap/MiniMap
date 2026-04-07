@@ -29,5 +29,5 @@ def directions():
 
 @bp.route('/api/test')
 def test():
-    directions = get_directions("room_101", "room_102")
+    directions = get_directions("NPB_5_E1", "NPB_5_102")
     return jsonify(directions)
