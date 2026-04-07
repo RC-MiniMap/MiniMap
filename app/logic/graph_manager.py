@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 from pathlib import Path
-#modular grapgh
+# modular graph
 G = None
 
 # read the JSON files
