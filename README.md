@@ -29,13 +29,14 @@ Each instruction can be dismissed as you go, similar to how Google Maps lets you
 
 ### How the Pathfinding Works
 
-The building is modeled as a **graph** — locations are **nodes** and the walking paths between them are **edges**. Every node stores five things:
+The building is modeled as a **graph** — locations are **nodes** and the walking paths between them are **edges**. Every node stores six things:
 
-1. **id** — a unique identifier for the node (e.g., `"room_101"`), used to reference it in edges and routing queries
-2. **name** — the human-readable label (e.g., `"Room 101"` or `"Main Staircase"`), displayed in directions
-3. **type** — the category of location (e.g., `"room"`, `"staircase"`, `"entrance"`), used to filter and categorize nodes
-4. **coords** — the pixel coordinates `[x, y]` on the floor plan image, used to draw the blue route line
-5. **floor** — the floor number the node is on, allowing multi-floor pathfinding and filtering
+1. **id** — a unique identifier for the node (e.g., `"NPB_5_102"`), used to reference it in edges and routing queries
+2. **name** — the human-readable label (e.g., `"5.102"` or `"Main Staircase"`), displayed in directions
+3. **type** — the category of location (e.g., `"room"`, `"staircase"`, `"elevator"`, `"waypoint"`, `"spine"`). A `"spine"` node represents a main hallway/backbone connector used to route movement through the building, and the field is used to filter and categorize nodes
+4. **building** — the building code (e.g., `"NPB"`), allowing multi-building support
+5. **coords** — the pixel coordinates `[x, y]` on the floor plan image, used to draw the blue route line
+6. **floor** — the floor number the node is on, allowing multi-floor pathfinding and filtering
 
 Each edge stores 4 things:
 

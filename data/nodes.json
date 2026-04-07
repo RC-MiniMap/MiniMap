@@ -1,37 +1,497 @@
 [
   {
-    "id": "room_101",
-    "name": "Room 101",
+    "id": "NPB_5_102",
+    "name": "5.102",
     "type": "room",
-    "coords": [100, 200],
-    "floor": 1
+    "building": "NPB",
+    "coords": [
+      0,
+      -12
+    ],
+    "floor": 5
   },
   {
-    "id": "door_101",
-    "name": "Doorway 101",
-    "type": "waypoint",
-    "coords": [150, 200],
-    "floor": 1
+    "id": "NPB_5_E1",
+    "name": "5.E1",
+    "type": "elevator",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 5
   },
   {
-    "id": "hallway_corner",
-    "name": "Hallway Corner",
-    "type": "waypoint",
-    "coords": [150, 400],
-    "floor": 1
-  },
-  {
-    "id": "door_102",
-    "name": "Doorway 102",
-    "type": "waypoint",
-    "coords": [300, 400],
-    "floor": 1
-  },
-  {
-    "id": "room_102",
-    "name": "Room 102",
+    "id": "NPB_5_106",
+    "name": "5.106",
     "type": "room",
-    "coords": [300, 450],
-    "floor": 1
+    "building": "NPB",
+    "coords": [
+      5,
+      10
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_122",
+    "name": "5.122",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      5,
+      14
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_108",
+    "name": "5.108",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_110",
+    "name": "5.110",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_S1",
+    "name": "5.S1",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_102_1",
+    "name": "5.102-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_126_1",
+    "name": "5.126-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_140A",
+    "name": "5.140A",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_140",
+    "name": "5.140",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_stairs_main",
+    "name": "Main Stairs",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_130",
+    "name": "5.130",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_146",
+    "name": "5.146",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_140_1",
+    "name": "5.140-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_180_A",
+    "name": "5.180-A",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_148",
+    "name": "5.148",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_150",
+    "name": "5.150",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_154",
+    "name": "5.154",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_156",
+    "name": "5.156",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_152",
+    "name": "5.152",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_E3",
+    "name": "5.E3",
+    "type": "elevator",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_S2",
+    "name": "5.S2",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_180",
+    "name": "5.180",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_130B_1",
+    "name": "5.130B-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_waypoint_1",
+    "name": "Elevator Waypoint",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      0,
+      12
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_waypoint_2",
+    "name": "Waypoint 2",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_waypoint_3",
+    "name": "Waypoint 3",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_1",
+    "name": "spine 1",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_2",
+    "name": "spine 2",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_3",
+    "name": "spine 3",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_4",
+    "name": "spine 4",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_5",
+    "name": "spine 5",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_6",
+    "name": "spine 6",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_7",
+    "name": "spine 7",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_8",
+    "name": "spine 8",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_9",
+    "name": "spine 9",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_10",
+    "name": "spine 10",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_11",
+    "name": "spine 11",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_12",
+    "name": "spine 12",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_13",
+    "name": "spine 13",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_14",
+    "name": "spine 14",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_15",
+    "name": "spine 15",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_spine_16",
+    "name": "spine 16",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
+  },
+  {
+    "id": "NPB_5_102_2",
+    "name": "5.102-2",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      null,
+      null
+    ],
+    "floor": 5
   }
 ]

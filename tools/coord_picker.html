@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coordinate Picker — Campus Navigator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #1a1a2e; color: #eee; display: flex; flex-direction: column; height: 100vh; }
+
+    #toolbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 16px; background: #16213e; border-bottom: 1px solid #0f3460;
+      flex-shrink: 0; flex-wrap: wrap;
+    }
+    #toolbar h1 { font-size: 1rem; color: #e94560; margin-right: 8px; }
+    #toolbar label { font-size: 0.85rem; color: #aaa; }
+    #toolbar input[type=file] { font-size: 0.8rem; }
+    #toolbar input[type=text], #toolbar input[type=number] {
+      padding: 4px 8px; border-radius: 4px; border: 1px solid #0f3460;
+      background: #0f3460; color: #eee; font-size: 0.85rem;
+    }
+    #filter-building { width: 70px; }
+    #filter-floor { width: 45px; }
+    button { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+    #btn-load { background: #0f3460; color: #eee; }
+    #btn-save { background: #e94560; color: #fff; }
+    #btn-save:disabled { background: #555; cursor: default; }
+    #status { font-size: 0.8rem; color: #aaa; margin-left: auto; }
+
+    #main { display: flex; flex: 1; overflow: hidden; }
+
+    #canvas-wrap {
+      position: relative; flex: 1; overflow: auto; background: #111;
+      cursor: crosshair;
+    }
+    #floorplan { position: absolute; top: 0; left: 0; display: none; opacity: 0.35; pointer-events: none; }
+    #overlay { display: block; }
+
+    #sidebar {
+      width: 280px; flex-shrink: 0; background: #16213e;
+      border-left: 1px solid #0f3460; overflow-y: auto; padding: 10px;
+    }
+    #sidebar h2 { font-size: 0.9rem; color: #e94560; margin-bottom: 8px; }
+
+    #manual-entry {
+      margin-bottom: 10px; padding: 8px; background: #0f3460; border-radius: 4px;
+      display: none;
+    }
+    #manual-entry h3 { font-size: 0.8rem; color: #ccc; margin-bottom: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #manual-entry .row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+    #manual-entry .row label { font-size: 0.75rem; color: #aaa; width: 22px; }
+    #manual-entry .row input { width: 80px; }
+    #btn-set-coords { background: #4caf50; color: #fff; padding: 4px 10px; font-size: 0.8rem; margin-top: 4px; }
+
+    .node-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 6px; border-radius: 4px; margin-bottom: 4px;
+      background: #0f3460; font-size: 0.8rem; cursor: pointer;
+    }
+    .node-item:hover { background: #1a4a80; }
+    .node-item.selected { background: #e94560; }
+    .node-item .node-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .node-item .node-coords { font-size: 0.7rem; color: #888; margin-left: 6px; white-space: nowrap; }
+    .node-item.placed .node-coords { color: #4caf50; }
+
+    #instructions {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.75); color: #fff; padding: 8px 18px;
+      border-radius: 20px; font-size: 0.8rem; pointer-events: none;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="toolbar">
+  <h1>Coord Picker</h1>
+
+  <label>Data folder:
+    <input type="file" id="data-dir" webkitdirectory />
+  </label>
+
+  <label>Image (optional):
+    <input type="file" id="img-input" accept="image/*" />
+  </label>
+
+  <label>Building:
+    <input type="text" id="filter-building" placeholder="NPB" />
+  </label>
+
+  <label>Floor:
+    <input type="number" id="filter-floor" placeholder="5" />
+  </label>
+
+  <button id="btn-load">Load</button>
+  <button id="btn-save" disabled>Save nodes.json</button>
+
+  <span id="status">Select the data/ folder to begin.</span>
+</div>
+
+<div id="main">
+  <div id="canvas-wrap">
+    <img id="floorplan" alt="" />
+    <canvas id="overlay"></canvas>
+  </div>
+
+  <div id="sidebar">
+    <h2>Nodes <span id="node-count"></span></h2>
+
+    <div id="manual-entry">
+      <h3 id="manual-node-name">Selected node</h3>
+      <div class="row">
+        <label>X:</label>
+        <input type="number" id="manual-x" step="0.5" placeholder="ft east (+) / west (-)" />
+      </div>
+      <div class="row">
+        <label>Y:</label>
+        <input type="number" id="manual-y" step="0.5" placeholder="ft north (+) / south (-)" />
+      </div>
+      <button id="btn-set-coords">Set Coords</button>
+    </div>
+
+    <div id="node-list"></div>
+  </div>
+</div>
+
+<div id="instructions">Click on the map to place node, or use manual entry above.</div>
+
+<script>
+  let nodes = [];
+  let floorsData = null;
+  let floorMeta = null;
+  let selectedIndex = null;
+
+  const CANVAS_W = 900;
+  const CANVAS_H = 500;
+
+  const imgEl = document.getElementById('floorplan');
+  const canvas = document.getElementById('overlay');
+  const ctx = canvas.getContext('2d');
+  const canvasWrap = document.getElementById('canvas-wrap');
+  const nodeListEl = document.getElementById('node-list');
+  const nodeCountEl = document.getElementById('node-count');
+  const statusEl = document.getElementById('status');
+  const instructions = document.getElementById('instructions');
+  const btnSave = document.getElementById('btn-save');
+  const filterBuilding = document.getElementById('filter-building');
+  const filterFloor = document.getElementById('filter-floor');
+  const manualEntry = document.getElementById('manual-entry');
+  const manualNodeName = document.getElementById('manual-node-name');
+  const manualX = document.getElementById('manual-x');
+  const manualY = document.getElementById('manual-y');
+
+  canvas.width = CANVAS_W;
+  canvas.height = CANVAS_H;
+
+  // ── File loaders ──────────────────────────────────────────────────────────
+
+  document.getElementById('data-dir').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    const floorsFile = files.find(f => f.name === 'floors.json');
+    const nodesFile  = files.find(f => f.name === 'nodes.json');
+    if (!floorsFile) { setStatus('No floors.json found in selected folder.'); return; }
+    if (!nodesFile)  { setStatus('No nodes.json found in selected folder.');  return; }
+
+    let pending = 2;
+    function onBothLoaded() {
+      if (--pending > 0) return;
+      btnSave.disabled = false;
+      tryUpdateFloorMeta();
+      renderList();
+      redraw();
+      setStatus(`Loaded ${nodes.length} nodes from data/.`);
+    }
+    readJSON(floorsFile, (data) => { floorsData = data; onBothLoaded(); });
+    readJSON(nodesFile,  (data) => { nodes = data;      onBothLoaded(); });
+  });
+
+  document.getElementById('img-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    imgEl.onload = () => {
+      imgEl.style.display = 'block';
+      imgEl.style.width = CANVAS_W + 'px';
+      imgEl.style.height = CANVAS_H + 'px';
+      redraw();
+      setStatus('Image loaded (visual reference, 35% opacity).');
+    };
+    imgEl.src = URL.createObjectURL(file);
+  });
+
+  function readJSON(file, cb) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try { cb(JSON.parse(ev.target.result)); }
+      catch { alert('Failed to parse ' + file.name); }
+    };
+    reader.readAsText(file);
+  }
+
+  // ── Floor metadata ────────────────────────────────────────────────────────
+
+  document.getElementById('btn-load').addEventListener('click', () => {
+    tryUpdateFloorMeta();
+    renderList();
+    redraw();
+  });
+  filterBuilding.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('btn-load').click(); });
+  filterFloor.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('btn-load').click(); });
+
+  function tryUpdateFloorMeta() {
+    if (!floorsData) return;
+    const b = (filterBuilding.value.trim() || 'NPB').toUpperCase();
+    const f = filterFloor.value.trim() || '5';
+    if (floorsData[b] && floorsData[b][f]) {
+      floorMeta = floorsData[b][f];
+      redraw();
+    }
+  }
+
+  // ── Coordinate math ───────────────────────────────────────────────────────
+  // Origin (0, 0) = elevator = center of canvas.
+  // X increases east (right), Y increases north (up).
+  // Canvas Y increases downward, so we flip Y.
+
+  function getScale() {
+    if (!floorMeta) return 4; // fallback: 4px per foot
+    return Math.min(
+      (CANVAS_W * 0.88) / floorMeta.width_feet,
+      (CANVAS_H * 0.88) / floorMeta.height_feet
+    );
+  }
+
+  function feetToCanvas(fx, fy) {
+    const s = getScale();
+    return [CANVAS_W / 2 + fx * s, CANVAS_H / 2 - fy * s];
+  }
+
+  function canvasToFeet(cx, cy) {
+    const s = getScale();
+    return [
+      Math.round((cx - CANVAS_W / 2) / s * 10) / 10,
+      Math.round(-(cy - CANVAS_H / 2) / s * 10) / 10
+    ];
+  }
+
+  function isPlaced(node) {
+    return node.coords !== null &&
+           Array.isArray(node.coords) &&
+           node.coords[0] !== null &&
+           node.coords[1] !== null;
+  }
+
+  function coordLabel(node) {
+    if (!isPlaced(node)) return 'unset';
+    return `[${node.coords[0]}, ${node.coords[1]}] ft`;
+  }
+
+  // ── Canvas interaction ────────────────────────────────────────────────────
+
+  canvasWrap.addEventListener('click', (e) => {
+    if (selectedIndex === null) return;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CANVAS_W / canvas.offsetWidth;
+    const scaleY = CANVAS_H / canvas.offsetHeight;
+    const cx = (e.clientX - rect.left) * scaleX;
+    const cy = (e.clientY - rect.top) * scaleY;
+    const [fx, fy] = canvasToFeet(cx, cy);
+
+    nodes[selectedIndex].coords = [fx, fy];
+    manualX.value = fx;
+    manualY.value = fy;
+    renderList();
+    redraw();
+    setStatus(`Placed "${nodes[selectedIndex].name || nodes[selectedIndex].id}" at [${fx}, ${fy}] ft`);
+  });
+
+  // ── Manual entry ──────────────────────────────────────────────────────────
+
+  document.getElementById('btn-set-coords').addEventListener('click', () => {
+    if (selectedIndex === null) return;
+    const fx = parseFloat(manualX.value);
+    const fy = parseFloat(manualY.value);
+    if (isNaN(fx) || isNaN(fy)) { alert('Enter valid X and Y values in feet.'); return; }
+    nodes[selectedIndex].coords = [fx, fy];
+    renderList();
+    redraw();
+    setStatus(`Set "${nodes[selectedIndex].name || nodes[selectedIndex].id}" to [${fx}, ${fy}] ft`);
+  });
+
+  // ── Node list ─────────────────────────────────────────────────────────────
+
+  function renderList() {
+    nodeListEl.innerHTML = '';
+    const building = filterBuilding.value.trim().toLowerCase();
+    const floorNum = parseInt(filterFloor.value.trim());
+    nodes.forEach((node, i) => {
+      if (building && (node.building || '').toLowerCase() !== building) return;
+      if (filterFloor.value.trim() && node.floor !== floorNum) return;
+      const div = document.createElement('div');
+      div.className = 'node-item' +
+        (i === selectedIndex ? ' selected' : '') +
+        (isPlaced(node) ? ' placed' : '');
+      div.innerHTML = `
+        <span class="node-label" title="${node.id}">${node.name || node.id}</span>
+        <span class="node-coords">${coordLabel(node)}</span>
+      `;
+      div.addEventListener('click', () => {
+        selectedIndex = i;
+        manualEntry.style.display = 'block';
+        manualNodeName.textContent = nodes[i].name || nodes[i].id;
+        manualX.value = isPlaced(nodes[i]) ? nodes[i].coords[0] : '';
+        manualY.value = isPlaced(nodes[i]) ? nodes[i].coords[1] : '';
+        renderList();
+        redraw();
+        if (isPlaced(nodes[i])) scrollToNode(i);
+        instructions.style.display = 'block';
+      });
+      nodeListEl.appendChild(div);
+    });
+    nodeCountEl.textContent = `(${nodes.length})`;
+  }
+
+  function scrollToNode(index) {
+    if (!isPlaced(nodes[index])) return;
+    const [cx, cy] = feetToCanvas(nodes[index].coords[0], nodes[index].coords[1]);
+    const dispScale = canvas.offsetWidth / CANVAS_W;
+    canvasWrap.scrollTo({
+      left: cx * dispScale - canvasWrap.clientWidth / 2,
+      top: cy * dispScale - canvasWrap.clientHeight / 2,
+      behavior: 'smooth'
+    });
+  }
+
+  // ── Drawing ───────────────────────────────────────────────────────────────
+
+  function redraw() {
+    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+    if (!floorMeta) {
+      ctx.fillStyle = '#555';
+      ctx.font = '15px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Load floors.json and set Building/Floor, then click Load.', CANVAS_W / 2, CANVAS_H / 2);
+      ctx.textAlign = 'left';
+      return;
+    }
+
+    const s = getScale();
+
+    // Grid lines every 10 ft
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.lineWidth = 1;
+    const hw = floorMeta.width_feet / 2 + 10;
+    const hh = floorMeta.height_feet / 2 + 10;
+    for (let x = -Math.ceil(hw / 10) * 10; x <= hw; x += 10) {
+      const [cx] = feetToCanvas(x, 0);
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, CANVAS_H); ctx.stroke();
+    }
+    for (let y = -Math.ceil(hh / 10) * 10; y <= hh; y += 10) {
+      const [, cy] = feetToCanvas(0, y);
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(CANVAS_W, cy); ctx.stroke();
+    }
+
+    // Floor bounding box
+    const [bx1, by1] = feetToCanvas(-floorMeta.width_feet / 2, floorMeta.height_feet / 2);
+    const [bx2, by2] = feetToCanvas(floorMeta.width_feet / 2, -floorMeta.height_feet / 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(bx1, by1, bx2 - bx1, by2 - by1);
+
+    // Axis labels (feet)
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    for (let x = -Math.floor(floorMeta.width_feet / 2 / 10) * 10; x <= floorMeta.width_feet / 2; x += 20) {
+      if (x === 0) continue;
+      const [cx] = feetToCanvas(x, 0);
+      ctx.fillText(x + ' ft', cx, CANVAS_H / 2 + 14);
+    }
+    ctx.textAlign = 'right';
+    for (let y = -Math.floor(floorMeta.height_feet / 2 / 10) * 10; y <= floorMeta.height_feet / 2; y += 20) {
+      if (y === 0) continue;
+      const [, cy] = feetToCanvas(0, y);
+      ctx.fillText(y + ' ft', CANVAS_W / 2 - 6, cy + 4);
+    }
+    ctx.textAlign = 'left';
+
+    // Origin crosshair
+    const [ox, oy] = feetToCanvas(0, 0);
+    ctx.strokeStyle = '#e94560';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(ox - 14, oy); ctx.lineTo(ox + 14, oy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox, oy - 14); ctx.lineTo(ox, oy + 14); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#e94560';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('origin (0, 0)', ox, oy - 18);
+    ctx.textAlign = 'left';
+
+    // Nodes
+    const building = filterBuilding.value.trim().toLowerCase();
+    const floorNum = parseInt(filterFloor.value.trim());
+    nodes.forEach((node, i) => {
+      if (building && (node.building || '').toLowerCase() !== building) return;
+      if (filterFloor.value.trim() && node.floor !== floorNum) return;
+      if (!isPlaced(node)) return;
+
+      const [cx, cy] = feetToCanvas(node.coords[0], node.coords[1]);
+      const isSel = i === selectedIndex;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, isSel ? 10 : 7, 0, Math.PI * 2);
+      ctx.fillStyle = isSel ? '#e94560' : '#4caf50';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const label = node.name || node.id;
+      ctx.font = `${isSel ? 'bold ' : ''}12px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+      ctx.lineWidth = 3;
+      ctx.strokeText(label, cx, cy - 14);
+      ctx.fillStyle = '#fff';
+      ctx.fillText(label, cx, cy - 14);
+      ctx.textAlign = 'left';
+    });
+  }
+
+  // ── Save ──────────────────────────────────────────────────────────────────
+
+  btnSave.addEventListener('click', async () => {
+    const json = JSON.stringify(nodes, null, 2);
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: 'nodes.json',
+          types: [{ description: 'JSON file', accept: { 'application/json': ['.json'] } }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(json);
+        await writable.close();
+        setStatus(`Saved to ${handle.name}.`);
+      } catch (err) {
+        if (err.name !== 'AbortError') setStatus('Save failed: ' + err.message);
+      }
+    } else {
+      const blob = new Blob([json], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'nodes.json';
+      a.click();
+      setStatus('nodes.json downloaded.');
+    }
+  });
+
+  function setStatus(msg) { statusEl.textContent = msg; }
+
+  redraw();
+</script>
+</body>
+</html>

@@ -1,50 +1,278 @@
 [
   {
-    "source": "room_101",
-    "target": "door_101",
+    "source": "NPB_5_waypoint_1",
+    "target": "NPB_5_spine_1",
     "weight": 5,
-    "instruction": "Walk to the door of Room 101."
+    "instruction": "Continue toward spine 1."
   },
   {
-    "source": "door_101",
-    "target": "hallway_corner",
+    "source": "NPB_5_spine_1",
+    "target": "NPB_5_waypoint_1",
+    "weight": 5,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_5_spine_1",
+    "target": "NPB_5_122",
+    "weight": 2,
+    "instruction": "Enter room 5.122."
+  },
+  {
+    "source": "NPB_5_122",
+    "target": "NPB_5_spine_1",
+    "weight": 2,
+    "instruction": "Exit room 5.122 and continue."
+  },
+  {
+    "source": "NPB_5_106",
+    "target": "NPB_5_spine_1",
+    "weight": 2,
+    "instruction": "Exit room 5.106 and continue."
+  },
+  {
+    "source": "NPB_5_spine_1",
+    "target": "NPB_5_106",
+    "weight": 2,
+    "instruction": "Enter room 5.106."
+  },
+  {
+    "source": "NPB_5_spine_1",
+    "target": "NPB_5_spine_2",
     "weight": 20,
-    "instruction": "Exit Room 101 and turn LEFT into the hallway."
+    "instruction": "Continue toward spine 2."
   },
   {
-    "source": "hallway_corner",
-    "target": "door_102",
-    "weight": 15,
-    "instruction": "At the corner, turn RIGHT and walk toward Room 102."
-  },
-  {
-    "source": "door_102",
-    "target": "room_102",
-    "weight": 5,
-    "instruction": "Turn RIGHT to enter Room 102."
-  },
-  {
-    "source": "room_102",
-    "target": "door_102",
-    "weight": 5,
-    "instruction": "Walk to the door of Room 102."
-  },
-  {
-    "source": "door_102",
-    "target": "hallway_corner",
-    "weight": 15,
-    "instruction": "Exit Room 102 and turn RIGHT toward the hallway corner."
-  },
-  {
-    "source": "hallway_corner",
-    "target": "door_101",
+    "source": "NPB_5_spine_2",
+    "target": "NPB_5_spine_1",
     "weight": 20,
-    "instruction": "At the corner, turn LEFT and walk toward Room 101."
+    "instruction": "Continue toward spine 1."
   },
   {
-    "source": "door_101",
-    "target": "room_101",
+    "source": "NPB_5_spine_2",
+    "target": "NPB_5_102_2",
+    "weight": 2,
+    "instruction": "Enter room 5.102-2."
+  },
+  {
+    "source": "NPB_5_102_2",
+    "target": "NPB_5_spine_2",
+    "weight": 2,
+    "instruction": "Exit room 5.102-2 and continue."
+  },
+  {
+    "source": "NPB_5_spine_2",
+    "target": "NPB_5_spine_3",
+    "weight": 8,
+    "instruction": "Continue toward spine 3."
+  },
+  {
+    "source": "NPB_5_spine_3",
+    "target": "NPB_5_spine_2",
+    "weight": 8,
+    "instruction": "Continue toward spine 2."
+  },
+  {
+    "source": "NPB_5_spine_3",
+    "target": "NPB_5_108",
+    "weight": 2,
+    "instruction": "Enter room 5.108."
+  },
+  {
+    "source": "NPB_5_108",
+    "target": "NPB_5_spine_3",
+    "weight": 2,
+    "instruction": "Exit room 5.108 and continue."
+  },
+  {
+    "source": "NPB_5_spine_3",
+    "target": "NPB_5_spine_4",
+    "weight": 18,
+    "instruction": "Continue toward spine 4."
+  },
+  {
+    "source": "NPB_5_spine_4",
+    "target": "NPB_5_spine_3",
+    "weight": 18,
+    "instruction": "Continue toward spine 3."
+  },
+  {
+    "source": "NPB_5_spine_4",
+    "target": "NPB_5_110",
+    "weight": 2,
+    "instruction": "Enter room 5.110."
+  },
+  {
+    "source": "NPB_5_110",
+    "target": "NPB_5_spine_4",
+    "weight": 2,
+    "instruction": "Exit room 5.110 and continue."
+  },
+  {
+    "source": "NPB_5_spine_4",
+    "target": "NPB_5_spine_5",
     "weight": 5,
-    "instruction": "Turn RIGHT to enter Room 101."
+    "instruction": "Continue toward spine 5."
+  },
+  {
+    "source": "NPB_5_spine_5",
+    "target": "NPB_5_spine_4",
+    "weight": 5,
+    "instruction": "Continue toward spine 4."
+  },
+  {
+    "source": "NPB_5_S1",
+    "target": "NPB_5_spine_5",
+    "weight": 2,
+    "instruction": "Continue toward spine 5."
+  },
+  {
+    "source": "NPB_5_spine_5",
+    "target": "NPB_5_S1",
+    "weight": 2,
+    "instruction": "Continue toward 5.S1."
+  },
+  {
+    "source": "NPB_5_spine_5",
+    "target": "NPB_5_102_1",
+    "weight": 10,
+    "instruction": "Enter room 5.102-1."
+  },
+  {
+    "source": "NPB_5_102_1",
+    "target": "NPB_5_spine_5",
+    "weight": 10,
+    "instruction": "Exit room 5.102-1 and continue."
+  },
+  {
+    "source": "NPB_5_waypoint_1",
+    "target": "NPB_5_E1",
+    "weight": 12,
+    "instruction": "Continue toward 5.E1."
+  },
+  {
+    "source": "NPB_5_E1",
+    "target": "NPB_5_waypoint_1",
+    "weight": 12,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_5_E1",
+    "target": "NPB_5_102",
+    "weight": 12,
+    "instruction": "Enter room 5.102."
+  },
+  {
+    "source": "NPB_5_102",
+    "target": "NPB_5_E1",
+    "weight": 12,
+    "instruction": "Exit room 5.102 and continue."
+  },
+  {
+    "source": "NPB_5_waypoint_1",
+    "target": "NPB_5_spine_6",
+    "weight": 11,
+    "instruction": "Continue toward spine 6."
+  },
+  {
+    "source": "NPB_5_spine_6",
+    "target": "NPB_5_waypoint_1",
+    "weight": 11,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_5_spine_6",
+    "target": "NPB_5_126_1",
+    "weight": 2,
+    "instruction": "Enter room 5.126-1."
+  },
+  {
+    "source": "NPB_5_126_1",
+    "target": "NPB_5_spine_6",
+    "weight": 2,
+    "instruction": "Exit room 5.126-1 and continue."
+  },
+  {
+    "source": "NPB_5_spine_7",
+    "target": "NPB_5_spine_6",
+    "weight": 38,
+    "instruction": "Continue toward spine 6."
+  },
+  {
+    "source": "NPB_5_spine_6",
+    "target": "NPB_5_spine_7",
+    "weight": 38,
+    "instruction": "Continue toward spine 7."
+  },
+  {
+    "source": "NPB_5_140A",
+    "target": "NPB_5_spine_7",
+    "weight": 2,
+    "instruction": "Exit room 5.140A and continue."
+  },
+  {
+    "source": "NPB_5_spine_7",
+    "target": "NPB_5_140A",
+    "weight": 2,
+    "instruction": "Enter room 5.140A."
+  },
+  {
+    "source": "NPB_5_140",
+    "target": "NPB_5_spine_8",
+    "weight": 2,
+    "instruction": "Exit room 5.140 and continue."
+  },
+  {
+    "source": "NPB_5_spine_8",
+    "target": "NPB_5_140",
+    "weight": 2,
+    "instruction": "Enter room 5.140."
+  },
+  {
+    "source": "NPB_5_spine_8",
+    "target": "NPB_5_spine_7",
+    "weight": 5,
+    "instruction": "Continue toward spine 7."
+  },
+  {
+    "source": "NPB_5_spine_7",
+    "target": "NPB_5_spine_8",
+    "weight": 5,
+    "instruction": "Continue toward spine 8."
+  },
+  {
+    "source": "NPB_5_spine_8",
+    "target": "NPB_5_130",
+    "weight": 2,
+    "instruction": "Enter room 5.130."
+  },
+  {
+    "source": "NPB_5_130",
+    "target": "NPB_5_spine_8",
+    "weight": 2,
+    "instruction": "Exit room 5.130 and continue."
+  },
+  {
+    "source": "NPB_5_spine_8",
+    "target": "NPB_5_spine_9",
+    "weight": 34,
+    "instruction": "Continue toward spine 9."
+  },
+  {
+    "source": "NPB_5_spine_9",
+    "target": "NPB_5_spine_8",
+    "weight": 34,
+    "instruction": "Continue toward spine 8."
+  },
+  {
+    "source": "NPB_5_spine_9",
+    "target": "NPB_5_stairs_main",
+    "weight": 5,
+    "instruction": "Continue toward Main Stairs."
+  },
+  {
+    "source": "NPB_5_stairs_main",
+    "target": "NPB_5_spine_9",
+    "weight": 5,
+    "instruction": "Continue toward spine 9."
   }
 ]
