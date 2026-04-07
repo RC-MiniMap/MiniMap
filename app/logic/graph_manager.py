@@ -78,16 +78,10 @@ def main():
     pos = {node["id"]: tuple(node["coords"]) for node in nodes_data
            if node.get("coords") and node["coords"][0] is not None}
     positioned_nodes = list(pos.keys())
-    positioned_edges = [
-        (source, target)
-        for source, target in G.edges()
-        if source in pos and target in pos
-    ]
+    G_subgraph = G.subgraph(positioned_nodes).copy()
     nx.draw(
-        G,
+        G_subgraph,
         pos,
-        nodelist=positioned_nodes,
-        edgelist=positioned_edges,
         with_labels=True,
         node_color='skyblue',
         node_size=2000,
