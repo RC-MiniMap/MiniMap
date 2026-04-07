@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MiniMap - Dropdowns</title>
+</head>
+<body>
+    <h1>Choose Your Options</h1>
+
+    <form method="post" action="/directions">
+
+        <label for="entrance">Select Entrance Option:</label>
+        <select id="entrance" name="entrance">
+            {% for opt in entranceOptions %}
+                <option value="{{ opt }}">{{ opt }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="classroom">Select Classroom Option:</label>
+        <select id="classroom" name="classroom">
+            {% for opt in classroomOptions %}
+                <option value="{{ opt }}">{{ opt }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
