@@ -47,6 +47,7 @@ def build_graph():
 def reload_graph():
     global G
     G = build_graph()
+    print("reloaded")
 
 def shortest_route(graph, start, end):
     try:
@@ -57,7 +58,11 @@ def shortest_route(graph, start, end):
 
 #method to get direction
 def get_directions(start, end):
+    
     global G
+    if G is None:
+        reload_graph()
+    
     path = shortest_route(G, start, end)
     if path is None:
         return "No path found"
@@ -103,7 +108,7 @@ def main():
 
     # #calcs shortest path between room_101 and room_102
     # print(shortest_route('room_101', 'room_102'))
-    print(get_directions('room_102', 'room_101'))
+    print(get_directions('NPB_5_102', 'NPB_5_E1'))
 
 if __name__ == "__main__":
     main()
