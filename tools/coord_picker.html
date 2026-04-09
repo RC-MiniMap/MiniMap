@@ -30,11 +30,11 @@
     #main { display: flex; flex: 1; overflow: hidden; }
 
     #canvas-wrap {
-      position: relative; flex: 1; overflow: auto; background: #111;
+      position: relative; flex: 1; overflow: hidden; background: #111;
       cursor: crosshair;
     }
     #floorplan { position: absolute; top: 0; left: 0; display: none; opacity: 0.35; pointer-events: none; }
-    #overlay { display: block; }
+    #overlay { display: block; width: 100%; height: 100%; }
 
     #sidebar {
       width: 280px; flex-shrink: 0; background: #16213e;
@@ -132,8 +132,8 @@
   let floorMeta = null;
   let selectedIndex = null;
 
-  const CANVAS_W = 900;
-  const CANVAS_H = 500;
+  let CANVAS_W = 900;
+  let CANVAS_H = 500;
 
   const imgEl = document.getElementById('floorplan');
   const canvas = document.getElementById('overlay');
@@ -151,8 +151,15 @@
   const manualX = document.getElementById('manual-x');
   const manualY = document.getElementById('manual-y');
 
-  canvas.width = CANVAS_W;
-  canvas.height = CANVAS_H;
+  function resizeCanvas() {
+    CANVAS_W = canvasWrap.clientWidth;
+    CANVAS_H = canvasWrap.clientHeight;
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
+    redraw();
+  }
+
+  window.addEventListener('resize', resizeCanvas);
 
   // ── File loaders ──────────────────────────────────────────────────────────
 
@@ -462,7 +469,7 @@
 
   function setStatus(msg) { statusEl.textContent = msg; }
 
-  redraw();
+  resizeCanvas();
 </script>
 </body>
 </html>

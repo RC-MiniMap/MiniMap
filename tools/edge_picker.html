@@ -30,11 +30,11 @@
     #main { display: flex; flex: 1; overflow: hidden; position: relative; }
 
     #canvas-wrap {
-      position: relative; flex: 1; overflow: auto; background: #111;
+      position: relative; flex: 1; overflow: hidden; background: #111;
       cursor: crosshair;
     }
     #floorplan { position: absolute; top: 0; left: 0; display: none; opacity: 0.35; pointer-events: none; }
-    #overlay { display: block; }
+    #overlay { display: block; width: 100%; height: 100%; }
 
     #sidebar {
       width: 280px; flex-shrink: 0; background: #16213e;
@@ -132,6 +132,7 @@
 
   <button id="btn-load">Load</button>
   <button id="btn-save" disabled>Save edges.json</button>
+  <button id="btn-reset-view" onclick="resetView()">Reset View</button>
 
   <span id="status">Select the data/ folder to begin.</span>
 </div>
@@ -190,8 +191,14 @@
   let activeFilter = '';
   let activeFloor = NaN;
 
-  const CANVAS_W = 900;
-  const CANVAS_H = 500;
+  let zoomLevel = 1;
+  let panX = 0;
+  let panY = 0;
+  let isPanning = false;
+  let panStart = { x: 0, y: 0, panX0: 0, panY0: 0 };
+
+  let CANVAS_W = 900;
+  let CANVAS_H = 500;
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
   const imgEl         = document.getElementById('floorplan');
@@ -212,8 +219,15 @@
   const weightInput   = document.getElementById('edge-weight');
   const warningBanner = document.getElementById('unplaced-warning');
 
-  canvas.width  = CANVAS_W;
-  canvas.height = CANVAS_H;
+  function resizeCanvas() {
+    CANVAS_W = canvasWrap.clientWidth;
+    CANVAS_H = canvasWrap.clientHeight;
+    canvas.width  = CANVAS_W;
+    canvas.height = CANVAS_H;
+    redraw();
+  }
+
+  window.addEventListener('resize', resizeCanvas);
 
   // ── Type colors ────────────────────────────────────────────────────────────
   const TYPE_COLOR = {
@@ -235,15 +249,15 @@
   }
 
   function feetToCanvas(fx, fy) {
-    const s = getScale();
-    return [CANVAS_W / 2 + fx * s, CANVAS_H / 2 - fy * s];
+    const s = getScale() * zoomLevel;
+    return [CANVAS_W / 2 + fx * s + panX, CANVAS_H / 2 - fy * s + panY];
   }
 
   function canvasToFeet(cx, cy) {
-    const s = getScale();
+    const s = getScale() * zoomLevel;
     return [
-      Math.round((cx - CANVAS_W / 2) / s * 10) / 10,
-      Math.round(-(cy - CANVAS_H / 2) / s * 10) / 10
+      Math.round((cx - CANVAS_W / 2 - panX) / s * 10) / 10,
+      Math.round(-(cy - CANVAS_H / 2 - panY) / s * 10) / 10
     ];
   }
 
@@ -339,8 +353,50 @@
     }
   }
 
+  // ── Zoom & pan ─────────────────────────────────────────────────────────────
+  canvasWrap.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
+    const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+    const newZoom = Math.max(0.25, Math.min(12, zoomLevel * factor));
+    const ratio = newZoom / zoomLevel;
+    panX = panX + (cx - CANVAS_W / 2 - panX) * (1 - ratio);
+    panY = panY + (cy - CANVAS_H / 2 - panY) * (1 - ratio);
+    zoomLevel = newZoom;
+    redraw();
+  }, { passive: false });
+
+  canvasWrap.addEventListener('mousedown', (e) => {
+    if (e.button === 1) {
+      e.preventDefault();
+      isPanning = true;
+      panStart = { x: e.clientX, y: e.clientY, panX0: panX, panY0: panY };
+      canvasWrap.style.cursor = 'grabbing';
+    }
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 1 && isPanning) {
+      isPanning = false;
+      canvasWrap.style.cursor = 'crosshair';
+    }
+  });
+
+  function resetView() {
+    zoomLevel = 1;
+    panX = 0;
+    panY = 0;
+    redraw();
+  }
+
   // ── Canvas: mousemove ──────────────────────────────────────────────────────
   canvasWrap.addEventListener('mousemove', (e) => {
+    if (isPanning) {
+      panX = panStart.panX0 + (e.clientX - panStart.x);
+      panY = panStart.panY0 + (e.clientY - panStart.y);
+      redraw();
+      return;
+    }
     const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
     mousePos = { cx, cy };
     const idx = findNodeNear(cx, cy);
@@ -765,7 +821,7 @@
   function setStatus(msg) { statusEl.textContent = msg; }
   function setHint(msg)   { hintBar.textContent = msg; hintBar.style.display = 'block'; }
 
-  redraw();
+  resizeCanvas();
 </script>
 </body>
 </html>
