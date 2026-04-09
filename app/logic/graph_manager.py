@@ -83,6 +83,11 @@ def get_directions(start, end):
         return f"No path found from {start} to {end}."
     directions = []
     coordinates = []
+    if start == end:
+        directions.append("You are already at your destination.")
+        current_node = G.nodes[start]
+        coordinates.append({"x": current_node["coords"][0], "y": current_node["coords"][1], "floor": current_node["floor"]})
+        return {"directions": directions, "coordinates": coordinates}
     for i in range(len(path)):
         current_node_id = path[i]
         current_node = G.nodes[current_node_id]
@@ -110,14 +115,11 @@ def get_directions(start, end):
                 directions.append(f"Move from floor {current_node['floor']} to floor {next_node['floor']}.")
         else:
             directions.append(edge_data["instruction"])
-            
-        if start == end:
-            directions.append("You are already at your destination.")
-        
-        return {
-            "directions": directions,
-            "coordinates": coordinates
-        }
+
+    return {
+        "directions": directions,
+        "coordinates": coordinates
+    }
 #builds photo of the graph
 def main():
     global G

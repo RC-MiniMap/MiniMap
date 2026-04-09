@@ -20,10 +20,11 @@ def directions():
     else:
         try:
             result = get_directions(entrance, classroom)
-            if result == "No path found":
+            if isinstance(result, str):
                 error = 'No route could be found between the selected entrance and destination. Please check your selections and try again.'
             else:
-                steps, coordinates = result
+                steps = result["directions"]
+                coordinates = result["coordinates"]
         except RuntimeError as e:
             error = str(e)
     entrances, classrooms = get_options()
@@ -32,5 +33,5 @@ def directions():
 
 @bp.route('/api/test')
 def test():
-    directions = get_directions("NPB_5_E1", "NPB_5_102")
+    directions = get_directions("NPB_5_E1", "NPB_5_154")
     return jsonify(directions)
