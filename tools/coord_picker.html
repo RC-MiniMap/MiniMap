@@ -156,6 +156,8 @@
     CANVAS_H = canvasWrap.clientHeight;
     canvas.width = CANVAS_W;
     canvas.height = CANVAS_H;
+    imgEl.style.width = CANVAS_W + 'px';
+    imgEl.style.height = CANVAS_H + 'px';
     redraw();
   }
 

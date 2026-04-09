@@ -132,7 +132,7 @@
 
   <button id="btn-load">Load</button>
   <button id="btn-save" disabled>Save edges.json</button>
-  <button id="btn-reset-view" onclick="resetView()">Reset View</button>
+  <button id="btn-reset-view">Reset View</button>
 
   <span id="status">Select the data/ folder to begin.</span>
 </div>
@@ -224,6 +224,8 @@
     CANVAS_H = canvasWrap.clientHeight;
     canvas.width  = CANVAS_W;
     canvas.height = CANVAS_H;
+    imgEl.style.width  = CANVAS_W + 'px';
+    imgEl.style.height = CANVAS_H + 'px';
     redraw();
   }
 
@@ -388,6 +390,8 @@
     panY = 0;
     redraw();
   }
+
+  document.getElementById('btn-reset-view').addEventListener('click', resetView);
 
   // ── Canvas: mousemove ──────────────────────────────────────────────────────
   canvasWrap.addEventListener('mousemove', (e) => {
