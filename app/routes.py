@@ -20,7 +20,7 @@ def directions():
     else:
         try:
             result = get_directions(entrance, classroom)
-            if result == "No path found":
+            if isinstance(result, str):
                 error = 'No route could be found between the selected entrance and destination. Please check your selections and try again.'
             else:
                 steps = result["directions"]
