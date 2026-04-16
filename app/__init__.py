@@ -8,4 +8,13 @@ def create_app():
     app.register_blueprint(routes.bp)
     # To add additional blueprints (e.g., api_bp), register them here.
 
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///minimap.db'
+    # Import and initialize the database
+    from app.models import db
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+
+
+
     return app
