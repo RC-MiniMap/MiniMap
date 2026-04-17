@@ -27,7 +27,7 @@
 
         <br><br>
 
-        <button type="Get Directions">Submit</button>
+        <button type="submit">Get Directions</button>
     </form>
 
     <hr>
@@ -52,8 +52,13 @@
 
         <div id="direction-cards-container"></div>
 
-        <>
+        <script>
+        const directionSteps = {{ steps | tojson }};        
+        </script>
+
+        <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
     </div>
+    {% endif %}
 
 </body>
 </html>
