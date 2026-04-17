@@ -27,8 +27,24 @@
 
         <br><br>
 
-        <button type="submit">Submit</button>
+        <button type="Get Directions">Submit</button>
     </form>
+
+    <hr>
+
+    {% if error %}
+        <p style = "color: red">{{ error }}</p>
+    {% endif %}
+
+    {# Show step-by-step directions if available #}
+    {% if steps %}
+        <h2>Step-by-step directions</h2>
+        <ol>
+            {% for step in steps %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
 
 </body>
 </html>
