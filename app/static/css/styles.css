@@ -97,3 +97,12 @@ body {
 	background: #0056b3;
 }
 
+.animated-route {
+   animation: dash 1.5s linear infinite;
+}
+
+@keyframes dash {
+   to {
+      stroke-dashoffset: -20;
+   }
+}
