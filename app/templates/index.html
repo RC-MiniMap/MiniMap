@@ -47,14 +47,20 @@
     {% endif %}
 
     {% if steps %}
-    <div id="directions-panel"
+    <div id="directions-panel">
     <h2>Directions</h2>
     
     <div id="directions-card-container"></div>
 
     <script>
-        
+        const directionSteps= {{  steps | tojson }};
     </script>
+
+    <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
+    </div>
+    
+    {% endif %}
+
 
 </body>
 </html>
