@@ -526,5 +526,569 @@
     "target": "NPB_5_spine_16",
     "weight": 2,
     "instruction": "Exit room 5.154 and continue."
+  },
+  {
+    "source": "NPB_4_spine_11",
+    "target": "NPB_4_451",
+    "weight": 2,
+    "instruction": "Enter room 4.451."
+  },
+  {
+    "source": "NPB_4_451",
+    "target": "NPB_4_spine_11",
+    "weight": 2,
+    "instruction": "Exit room 4.451 and continue."
+  },
+  {
+    "source": "NPB_4_spine_11",
+    "target": "NPB_4_S2",
+    "weight": 2,
+    "instruction": "Continue toward 4.S2."
+  },
+  {
+    "source": "NPB_4_S2",
+    "target": "NPB_4_spine_11",
+    "weight": 2,
+    "instruction": "Continue toward spine 11."
+  },
+  {
+    "source": "NPB_4_spine_12",
+    "target": "NPB_4_E3",
+    "weight": 2,
+    "instruction": "Continue toward 4.E3."
+  },
+  {
+    "source": "NPB_4_E3",
+    "target": "NPB_4_spine_12",
+    "weight": 2,
+    "instruction": "Continue toward spine 12."
+  },
+  {
+    "source": "NPB_4_spine_11",
+    "target": "NPB_4_spine_12",
+    "weight": 5,
+    "instruction": "Continue toward spine 12."
+  },
+  {
+    "source": "NPB_4_spine_12",
+    "target": "NPB_4_spine_11",
+    "weight": 5,
+    "instruction": "Continue toward spine 11."
+  },
+  {
+    "source": "NPB_4_spine_12",
+    "target": "NPB_4_waypoint_2",
+    "weight": 10,
+    "instruction": "Continue toward Waypoint 2."
+  },
+  {
+    "source": "NPB_4_waypoint_2",
+    "target": "NPB_4_spine_12",
+    "weight": 10,
+    "instruction": "Continue toward spine 12."
+  },
+  {
+    "source": "NPB_4_waypoint_2",
+    "target": "NPB_4_spine_8",
+    "weight": 2,
+    "instruction": "Continue toward spine 8."
+  },
+  {
+    "source": "NPB_4_spine_8",
+    "target": "NPB_4_waypoint_2",
+    "weight": 2,
+    "instruction": "Continue toward Waypoint 2."
+  },
+  {
+    "source": "NPB_4_spine_8",
+    "target": "NPB_4_465",
+    "weight": 2,
+    "instruction": "Enter room 4.465."
+  },
+  {
+    "source": "NPB_4_465",
+    "target": "NPB_4_spine_8",
+    "weight": 2,
+    "instruction": "Exit room 4.465 and continue."
+  },
+  {
+    "source": "NPB_4_spine_9",
+    "target": "NPB_4_464",
+    "weight": 2,
+    "instruction": "Enter room 4.464."
+  },
+  {
+    "source": "NPB_4_464",
+    "target": "NPB_4_spine_9",
+    "weight": 2,
+    "instruction": "Exit room 4.464 and continue."
+  },
+  {
+    "source": "NPB_4_spine_9",
+    "target": "NPB_4_spine_8",
+    "weight": 2,
+    "instruction": "Continue toward spine 8."
+  },
+  {
+    "source": "NPB_4_spine_8",
+    "target": "NPB_4_spine_9",
+    "weight": 2,
+    "instruction": "Continue toward spine 9."
+  },
+  {
+    "source": "NPB_4_461",
+    "target": "NPB_4_spine_9",
+    "weight": 2,
+    "instruction": "Exit room 4.461 and continue."
+  },
+  {
+    "source": "NPB_4_spine_9",
+    "target": "NPB_4_461",
+    "weight": 2,
+    "instruction": "Enter room 4.461."
+  },
+  {
+    "source": "NPB_4_spine_10",
+    "target": "NPB_4_spine_9",
+    "weight": 4,
+    "instruction": "Continue toward spine 9."
+  },
+  {
+    "source": "NPB_4_spine_9",
+    "target": "NPB_4_spine_10",
+    "weight": 4,
+    "instruction": "Continue toward spine 10."
+  },
+  {
+    "source": "NPB_4_463",
+    "target": "NPB_4_spine_10",
+    "weight": 2,
+    "instruction": "Exit room 4.463 and continue."
+  },
+  {
+    "source": "NPB_4_spine_10",
+    "target": "NPB_4_463",
+    "weight": 2,
+    "instruction": "Enter room 4.463."
+  },
+  {
+    "source": "NPB_4_460",
+    "target": "NPB_4_spine_10",
+    "weight": 2,
+    "instruction": "Exit room 4.460 and continue."
+  },
+  {
+    "source": "NPB_4_spine_10",
+    "target": "NPB_4_460",
+    "weight": 2,
+    "instruction": "Enter room 4.460."
+  },
+  {
+    "source": "NPB_4_462",
+    "target": "NPB_4_spine_10",
+    "weight": 2,
+    "instruction": "Exit room 4.462 and continue."
+  },
+  {
+    "source": "NPB_4_spine_10",
+    "target": "NPB_4_462",
+    "weight": 2,
+    "instruction": "Enter room 4.462."
+  },
+  {
+    "source": "NPB_4_waypoint_2",
+    "target": "NPB_4_spine_7",
+    "weight": 10,
+    "instruction": "Continue toward spine 7."
+  },
+  {
+    "source": "NPB_4_spine_7",
+    "target": "NPB_4_waypoint_2",
+    "weight": 10,
+    "instruction": "Continue toward Waypoint 2."
+  },
+  {
+    "source": "NPB_4_spine_7",
+    "target": "NPB_4_450",
+    "weight": 2,
+    "instruction": "Enter room 4.450."
+  },
+  {
+    "source": "NPB_4_450",
+    "target": "NPB_4_spine_7",
+    "weight": 2,
+    "instruction": "Exit room 4.450 and continue."
+  },
+  {
+    "source": "NPB_4_stairs_main",
+    "target": "NPB_4_spine_6",
+    "weight": 3,
+    "instruction": "Continue toward spine 6."
+  },
+  {
+    "source": "NPB_4_spine_6",
+    "target": "NPB_4_stairs_main",
+    "weight": 3,
+    "instruction": "Continue toward Main Stairs."
+  },
+  {
+    "source": "NPB_4_spine_6",
+    "target": "NPB_4_spine_3",
+    "weight": 33,
+    "instruction": "Continue toward spine 3."
+  },
+  {
+    "source": "NPB_4_spine_3",
+    "target": "NPB_4_spine_6",
+    "weight": 33,
+    "instruction": "Continue toward spine 6."
+  },
+  {
+    "source": "NPB_4_410_6_1",
+    "target": "NPB_4_spine_3",
+    "weight": 2,
+    "instruction": "Exit room 4.410.6-1 and continue."
+  },
+  {
+    "source": "NPB_4_spine_3",
+    "target": "NPB_4_410_6_1",
+    "weight": 2,
+    "instruction": "Enter room 4.410.6-1."
+  },
+  {
+    "source": "NPB_4_spine_3",
+    "target": "NPB_4_spine_2",
+    "weight": 23,
+    "instruction": "Continue toward spine 2."
+  },
+  {
+    "source": "NPB_4_spine_2",
+    "target": "NPB_4_spine_3",
+    "weight": 23,
+    "instruction": "Continue toward spine 3."
+  },
+  {
+    "source": "NPB_4_spine_2",
+    "target": "NPB_4_440C_1",
+    "weight": 2,
+    "instruction": "Enter room 4.440C-1."
+  },
+  {
+    "source": "NPB_4_440C_1",
+    "target": "NPB_4_spine_2",
+    "weight": 2,
+    "instruction": "Exit room 4.440C-1 and continue."
+  },
+  {
+    "source": "NPB_4_spine_2",
+    "target": "NPB_4_waypoint_1",
+    "weight": 6,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_4_waypoint_1",
+    "target": "NPB_4_spine_2",
+    "weight": 6,
+    "instruction": "Continue toward spine 2."
+  },
+  {
+    "source": "NPB_4_waypoint_1",
+    "target": "NPB_4_440",
+    "weight": 2,
+    "instruction": "Enter room 4.440."
+  },
+  {
+    "source": "NPB_4_440",
+    "target": "NPB_4_waypoint_1",
+    "weight": 2,
+    "instruction": "Exit room 4.440 and continue."
+  },
+  {
+    "source": "NPB_4_waypoint_1",
+    "target": "NPB_4_spine_1",
+    "weight": 5,
+    "instruction": "Continue toward spine 1."
+  },
+  {
+    "source": "NPB_4_spine_1",
+    "target": "NPB_4_waypoint_1",
+    "weight": 5,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_4_spine_1",
+    "target": "NPB_4_411",
+    "weight": 2,
+    "instruction": "Enter room 4.411."
+  },
+  {
+    "source": "NPB_4_411",
+    "target": "NPB_4_spine_1",
+    "weight": 2,
+    "instruction": "Exit room 4.411 and continue."
+  },
+  {
+    "source": "NPB_4_spine_15",
+    "target": "NPB_4_spine_16",
+    "weight": 16,
+    "instruction": "Continue toward spine 16."
+  },
+  {
+    "source": "NPB_4_spine_16",
+    "target": "NPB_4_spine_15",
+    "weight": 16,
+    "instruction": "Continue toward spine 15."
+  },
+  {
+    "source": "NPB_4_spine_16",
+    "target": "NPB_4_420",
+    "weight": 5,
+    "instruction": "Enter room 4.420."
+  },
+  {
+    "source": "NPB_4_420",
+    "target": "NPB_4_spine_16",
+    "weight": 5,
+    "instruction": "Exit room 4.420 and continue."
+  },
+  {
+    "source": "NPB_4_414",
+    "target": "NPB_4_spine_16",
+    "weight": 2,
+    "instruction": "Exit room 4.414 and continue."
+  },
+  {
+    "source": "NPB_4_spine_16",
+    "target": "NPB_4_414",
+    "weight": 2,
+    "instruction": "Enter room 4.414."
+  },
+  {
+    "source": "NPB_4_413",
+    "target": "NPB_4_spine_15",
+    "weight": 2,
+    "instruction": "Exit room 4.413 and continue."
+  },
+  {
+    "source": "NPB_4_spine_15",
+    "target": "NPB_4_413",
+    "weight": 2,
+    "instruction": "Enter room 4.413."
+  },
+  {
+    "source": "NPB_4_spine_15",
+    "target": "NPB_4_waypoint_3",
+    "weight": 4,
+    "instruction": "Continue toward Waypoint 3."
+  },
+  {
+    "source": "NPB_4_waypoint_3",
+    "target": "NPB_4_spine_15",
+    "weight": 4,
+    "instruction": "Continue toward spine 15."
+  },
+  {
+    "source": "NPB_4_spine_13",
+    "target": "NPB_4_S1",
+    "weight": 2,
+    "instruction": "Continue toward 4.S1."
+  },
+  {
+    "source": "NPB_4_S1",
+    "target": "NPB_4_spine_13",
+    "weight": 2,
+    "instruction": "Continue toward spine 13."
+  },
+  {
+    "source": "NPB_4_spine_14",
+    "target": "NPB_4_430",
+    "weight": 2,
+    "instruction": "Enter room 4.430."
+  },
+  {
+    "source": "NPB_4_430",
+    "target": "NPB_4_spine_14",
+    "weight": 2,
+    "instruction": "Exit room 4.430 and continue."
+  },
+  {
+    "source": "NPB_4_waypoint_3",
+    "target": "NPB_4_spine_13",
+    "weight": 5,
+    "instruction": "Continue toward spine 13."
+  },
+  {
+    "source": "NPB_4_spine_13",
+    "target": "NPB_4_waypoint_3",
+    "weight": 5,
+    "instruction": "Continue toward Waypoint 3."
+  },
+  {
+    "source": "NPB_4_spine_4",
+    "target": "NPB_4_waypoint_3",
+    "weight": 17,
+    "instruction": "Continue toward Waypoint 3."
+  },
+  {
+    "source": "NPB_4_waypoint_3",
+    "target": "NPB_4_spine_4",
+    "weight": 17,
+    "instruction": "Continue toward spine 4."
+  },
+  {
+    "source": "NPB_4_412",
+    "target": "NPB_4_spine_4",
+    "weight": 2,
+    "instruction": "Exit room 4.412 and continue."
+  },
+  {
+    "source": "NPB_4_spine_4",
+    "target": "NPB_4_412",
+    "weight": 2,
+    "instruction": "Enter room 4.412."
+  },
+  {
+    "source": "NPB_4_spine_4",
+    "target": "NPB_4_spine_1",
+    "weight": 28,
+    "instruction": "Continue toward spine 1."
+  },
+  {
+    "source": "NPB_4_spine_1",
+    "target": "NPB_4_spine_4",
+    "weight": 28,
+    "instruction": "Continue toward spine 4."
+  },
+  {
+    "source": "NPB_4_spine_5",
+    "target": "NPB_4_spine_6",
+    "weight": 49,
+    "instruction": "Continue toward spine 6."
+  },
+  {
+    "source": "NPB_4_spine_6",
+    "target": "NPB_4_spine_5",
+    "weight": 49,
+    "instruction": "Continue toward spine 5."
+  },
+  {
+    "source": "NPB_4_spine_5",
+    "target": "NPB_4_450b_1",
+    "weight": 2,
+    "instruction": "Enter room 4.450b-1."
+  },
+  {
+    "source": "NPB_4_450b_1",
+    "target": "NPB_4_spine_5",
+    "weight": 2,
+    "instruction": "Exit room 4.450b-1 and continue."
+  },
+  {
+    "source": "NPB_4_spine_5",
+    "target": "NPB_4_466",
+    "weight": 2,
+    "instruction": "Enter room 4.466."
+  },
+  {
+    "source": "NPB_4_466",
+    "target": "NPB_4_spine_5",
+    "weight": 2,
+    "instruction": "Exit room 4.466 and continue."
+  },
+  {
+    "source": "NPB_4_spine_5",
+    "target": "NPB_4_spine_7",
+    "weight": 13,
+    "instruction": "Continue toward spine 7."
+  },
+  {
+    "source": "NPB_4_spine_7",
+    "target": "NPB_4_spine_5",
+    "weight": 13,
+    "instruction": "Continue toward spine 5."
+  },
+  {
+    "source": "NPB_4_spine_6",
+    "target": "NPB_4_467",
+    "weight": 2,
+    "instruction": "Enter room 4.467."
+  },
+  {
+    "source": "NPB_4_467",
+    "target": "NPB_4_spine_6",
+    "weight": 2,
+    "instruction": "Exit room 4.467 and continue."
+  },
+  {
+    "source": "NPB_4_E1",
+    "target": "NPB_5_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 5."
+  },
+  {
+    "source": "NPB_5_E1",
+    "target": "NPB_4_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 4."
+  },
+  {
+    "source": "NPB_4_S1",
+    "target": "NPB_5_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_S1",
+    "target": "NPB_4_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_stairs_main",
+    "target": "NPB_5_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_stairs_main",
+    "target": "NPB_4_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_E3",
+    "target": "NPB_5_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 5."
+  },
+  {
+    "source": "NPB_5_E3",
+    "target": "NPB_4_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 4."
+  },
+  {
+    "source": "NPB_4_S2",
+    "target": "NPB_5_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_S2",
+    "target": "NPB_4_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_E1",
+    "target": "NPB_4_waypoint_1",
+    "weight": 12,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_4_waypoint_1",
+    "target": "NPB_4_E1",
+    "weight": 12,
+    "instruction": "Continue toward 4.E1."
   }
 ]

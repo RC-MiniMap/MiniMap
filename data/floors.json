@@ -6,6 +6,13 @@
       "image": null,
       "px_per_foot": null,
       "origin_px": null
+    },
+    "4": {
+      "width_feet": 300,
+      "height_feet": 60,
+      "image": null,
+      "px_per_foot": null,
+      "origin_px": null
     }
   }
 }

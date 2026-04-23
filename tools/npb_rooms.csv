@@ -44,3 +44,47 @@ NPB_5_spine_13,spine 13,NPB,5,spine
 NPB_5_spine_14,spine 14,NPB,5,spine
 NPB_5_spine_15,spine 15,NPB,5,spine
 NPB_5_spine_16,spine 16,NPB,5,spine
+NPB_4_E1,4.E1,NPB,4,elevator
+NPB_4_440,4.440,NPB,4,room
+NPB_4_467,4.467,NPB,4,room
+NPB_4_410_6_1,4.410.6-1,NPB,4,room
+NPB_4_440C_1,4.440C-1,NPB,4,room
+NPB_4_stairs_main,Main Stairs,NPB,4,staircase
+NPB_4_466,4.466,NPB,4,room
+NPB_4_450b_1,4.450b-1,NPB,4,room
+NPB_4_450,4.450,NPB,4,room
+NPB_4_460,4.460,NPB,4,room
+NPB_4_461,4.461,NPB,4,room
+NPB_4_462,4.462,NPB,4,room
+NPB_4_463,4.463,NPB,4,room
+NPB_4_464,4.464,NPB,4,room
+NPB_4_465,4.465,NPB,4,room
+NPB_4_451,4.451,NPB,4,room
+NPB_4_E3,4.E3,NPB,4,elevator
+NPB_4_S2,4.S2,NPB,4,staircase
+NPB_4_411,4.411,NPB,4,room
+NPB_4_412,4.412,NPB,4,room
+NPB_4_413,4.413,NPB,4,room
+NPB_4_414,4.414,NPB,4,room
+NPB_4_420,4.420,NPB,4,room
+NPB_4_S1,4.S1,NPB,4,staircase
+NPB_4_430,4.430,NPB,4,room
+NPB_4_waypoint_1,Elevator Waypoint,NPB,4,waypoint
+NPB_4_waypoint_2,Waypoint 2,NPB,4,waypoint
+NPB_4_waypoint_3,Waypoint 3,NPB,4,waypoint
+NPB_4_spine_1,spine 1,NPB,4,spine
+NPB_4_spine_2,spine 2,NPB,4,spine
+NPB_4_spine_3,spine 3,NPB,4,spine
+NPB_4_spine_4,spine 4,NPB,4,spine
+NPB_4_spine_5,spine 5,NPB,4,spine
+NPB_4_spine_6,spine 6,NPB,4,spine
+NPB_4_spine_7,spine 7,NPB,4,spine
+NPB_4_spine_8,spine 8,NPB,4,spine
+NPB_4_spine_9,spine 9,NPB,4,spine
+NPB_4_spine_10,spine 10,NPB,4,spine
+NPB_4_spine_11,spine 11,NPB,4,spine
+NPB_4_spine_12,spine 12,NPB,4,spine
+NPB_4_spine_13,spine 13,NPB,4,spine
+NPB_4_spine_14,spine 14,NPB,4,spine
+NPB_4_spine_15,spine 15,NPB,4,spine
+NPB_4_spine_16,spine 16,NPB,4,spine

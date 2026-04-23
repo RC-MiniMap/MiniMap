@@ -493,5 +493,489 @@
       14
     ],
     "floor": 5
+  },
+  {
+    "id": "NPB_4_E1",
+    "name": "4.E1",
+    "type": "elevator",
+    "building": "NPB",
+    "coords": [
+      0,
+      0
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_440",
+    "name": "4.440",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      0,
+      14
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_467",
+    "name": "4.467",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -62,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_410_6_1",
+    "name": "4.410.6-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -29,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_440C_1",
+    "name": "4.440C-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -6,
+      14
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_stairs_main",
+    "name": "Main Stairs",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      -62,
+      15
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_466",
+    "name": "4.466",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -111,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_450b_1",
+    "name": "4.450b-1",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -111,
+      14
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_450",
+    "name": "4.450",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -124,
+      14
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_460",
+    "name": "4.460",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -134,
+      2
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_461",
+    "name": "4.461",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -136,
+      8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_462",
+    "name": "4.462",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -136,
+      4
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_463",
+    "name": "4.463",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -132,
+      4
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_464",
+    "name": "4.464",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -132,
+      8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_465",
+    "name": "4.465",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -132,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_451",
+    "name": "4.451",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      -151,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_E3",
+    "name": "4.E3",
+    "type": "elevator",
+    "building": "NPB",
+    "coords": [
+      -144,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_S2",
+    "name": "4.S2",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      -149,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_411",
+    "name": "4.411",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      5,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_412",
+    "name": "4.412",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      33,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_413",
+    "name": "4.413",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      48,
+      8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_414",
+    "name": "4.414",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      48,
+      -8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_420",
+    "name": "4.420",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      50,
+      -13
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_S1",
+    "name": "4.S1",
+    "type": "staircase",
+    "building": "NPB",
+    "coords": [
+      55,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_430",
+    "name": "4.430",
+    "type": "room",
+    "building": "NPB",
+    "coords": [
+      64,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_waypoint_1",
+    "name": "Elevator Waypoint",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      0,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_waypoint_2",
+    "name": "Waypoint 2",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      -134,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_waypoint_3",
+    "name": "Waypoint 3",
+    "type": "waypoint",
+    "building": "NPB",
+    "coords": [
+      50,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_1",
+    "name": "spine 1",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      5,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_2",
+    "name": "spine 2",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -6,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_3",
+    "name": "spine 3",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -29,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_4",
+    "name": "spine 4",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      33,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_5",
+    "name": "spine 5",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -111,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_6",
+    "name": "spine 6",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -62,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_7",
+    "name": "spine 7",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -124,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_8",
+    "name": "spine 8",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -134,
+      10
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_9",
+    "name": "spine 9",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -134,
+      8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_10",
+    "name": "spine 10",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -134,
+      4
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_11",
+    "name": "spine 11",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -149,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_12",
+    "name": "spine 12",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      -144,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_13",
+    "name": "spine 13",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      55,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_14",
+    "name": "spine 14",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      62,
+      12
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_15",
+    "name": "spine 15",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      50,
+      8
+    ],
+    "floor": 4
+  },
+  {
+    "id": "NPB_4_spine_16",
+    "name": "spine 16",
+    "type": "spine",
+    "building": "NPB",
+    "coords": [
+      50,
+      -8
+    ],
+    "floor": 4
   }
 ]
