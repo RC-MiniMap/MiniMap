@@ -1,7 +1,7 @@
-document.addEventListener("DOMcontentLoaded", () => {
-    if(!window.directionSteps) return;
+document.addEventListener("DOMContentLoaded", () => {
+    if(typeof directionSteps === "undefined" || !directionSteps.length) return;
 
-    const container = document.getElementById("direction-cards-container");
+    const container = document.getElementById("directions-card-container");
     let currentIndex = 0;
 
     function renderSteps(index) {
