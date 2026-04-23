@@ -25,6 +25,7 @@
     #btn-load { background: #0f3460; color: #eee; }
     #btn-save { background: #e94560; color: #fff; }
     #btn-save:disabled { background: #555; cursor: default; }
+    #btn-reset-view { background: #0f3460; color: #eee; }
     #status { font-size: 0.8rem; color: #aaa; margin-left: auto; }
 
     #main { display: flex; flex: 1; overflow: hidden; }
@@ -94,6 +95,7 @@
 
   <button id="btn-load">Load</button>
   <button id="btn-save" disabled>Save nodes.json</button>
+  <button id="btn-reset-view">Reset View</button>
 
   <span id="status">Select the data/ folder to begin.</span>
 </div>
@@ -131,6 +133,11 @@
   let floorsData = null;
   let floorMeta = null;
   let selectedIndex = null;
+  let zoomLevel = 1;
+  let panX = 0;
+  let panY = 0;
+  let isPanning = false;
+  let panStart = { x: 0, y: 0, panX0: 0, panY0: 0 };
 
   let CANVAS_W = 900;
   let CANVAS_H = 500;
@@ -150,6 +157,7 @@
   const manualNodeName = document.getElementById('manual-node-name');
   const manualX = document.getElementById('manual-x');
   const manualY = document.getElementById('manual-y');
+  const btnResetView = document.getElementById('btn-reset-view');
 
   function resizeCanvas() {
     CANVAS_W = canvasWrap.clientWidth;
@@ -241,16 +249,26 @@
   }
 
   function feetToCanvas(fx, fy) {
-    const s = getScale();
-    return [CANVAS_W / 2 + fx * s, CANVAS_H / 2 - fy * s];
+    const s = getScale() * zoomLevel;
+    return [CANVAS_W / 2 + fx * s + panX, CANVAS_H / 2 - fy * s + panY];
   }
 
   function canvasToFeet(cx, cy) {
-    const s = getScale();
+    const s = getScale() * zoomLevel;
     return [
-      Math.round((cx - CANVAS_W / 2) / s * 10) / 10,
-      Math.round(-(cy - CANVAS_H / 2) / s * 10) / 10
+      Math.round((cx - CANVAS_W / 2 - panX) / s * 10) / 10,
+      Math.round(-(cy - CANVAS_H / 2 - panY) / s * 10) / 10
     ];
+  }
+
+  function clientToCanvas(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CANVAS_W / canvas.offsetWidth;
+    const scaleY = CANVAS_H / canvas.offsetHeight;
+    return {
+      cx: (clientX - rect.left) * scaleX,
+      cy: (clientY - rect.top) * scaleY,
+    };
   }
 
   function isPlaced(node) {
@@ -267,13 +285,45 @@
 
   // ── Canvas interaction ────────────────────────────────────────────────────
 
+  canvasWrap.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
+    const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+    const newZoom = Math.max(0.25, Math.min(12, zoomLevel * factor));
+    const ratio = newZoom / zoomLevel;
+    panX = panX + (cx - CANVAS_W / 2 - panX) * (1 - ratio);
+    panY = panY + (cy - CANVAS_H / 2 - panY) * (1 - ratio);
+    zoomLevel = newZoom;
+    redraw();
+  }, { passive: false });
+
+  canvasWrap.addEventListener('mousedown', (e) => {
+    if (e.button === 1) {
+      e.preventDefault();
+      isPanning = true;
+      panStart = { x: e.clientX, y: e.clientY, panX0: panX, panY0: panY };
+      canvasWrap.style.cursor = 'grabbing';
+    }
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.button === 1 && isPanning) {
+      isPanning = false;
+      canvasWrap.style.cursor = 'crosshair';
+    }
+  });
+
+  canvasWrap.addEventListener('mousemove', (e) => {
+    if (isPanning) {
+      panX = panStart.panX0 + (e.clientX - panStart.x);
+      panY = panStart.panY0 + (e.clientY - panStart.y);
+      redraw();
+    }
+  });
+
   canvasWrap.addEventListener('click', (e) => {
     if (selectedIndex === null) return;
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = CANVAS_W / canvas.offsetWidth;
-    const scaleY = CANVAS_H / canvas.offsetHeight;
-    const cx = (e.clientX - rect.left) * scaleX;
-    const cy = (e.clientY - rect.top) * scaleY;
+    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
     const [fx, fy] = canvasToFeet(cx, cy);
 
     nodes[selectedIndex].coords = [fx, fy];
@@ -283,6 +333,15 @@
     redraw();
     setStatus(`Placed "${nodes[selectedIndex].name || nodes[selectedIndex].id}" at [${fx}, ${fy}] ft`);
   });
+
+  function resetView() {
+    zoomLevel = 1;
+    panX = 0;
+    panY = 0;
+    redraw();
+  }
+
+  btnResetView.addEventListener('click', resetView);
 
   // ── Manual entry ──────────────────────────────────────────────────────────
 
@@ -333,12 +392,9 @@
   function scrollToNode(index) {
     if (!isPlaced(nodes[index])) return;
     const [cx, cy] = feetToCanvas(nodes[index].coords[0], nodes[index].coords[1]);
-    const dispScale = canvas.offsetWidth / CANVAS_W;
-    canvasWrap.scrollTo({
-      left: cx * dispScale - canvasWrap.clientWidth / 2,
-      top: cy * dispScale - canvasWrap.clientHeight / 2,
-      behavior: 'smooth'
-    });
+    panX += CANVAS_W / 2 - cx;
+    panY += CANVAS_H / 2 - cy;
+    redraw();
   }
 
   // ── Drawing ───────────────────────────────────────────────────────────────
