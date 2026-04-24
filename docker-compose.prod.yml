@@ -1,0 +1,10 @@
+services:
+  minimap:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    command: ["uv", "run", "gunicorn", "--workers", "4", "--bind", "0.0.0.0:5000", "run:app"]
+    environment:
+      - FLASK_DEBUG=0
