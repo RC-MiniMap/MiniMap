@@ -22,3 +22,6 @@ instance/
 
 # Byte-compiled / optimized / DLL files
 *.so
+
+# AWS Credentials
+*.pem
