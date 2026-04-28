@@ -350,12 +350,18 @@ function imageToScreen(ix, iy) {
   };
 }
 
+function snapToQuarter(value) {
+  return Math.round(value * 4) / 4;
+}
+
 function imageToFeet(ix, iy) {
   const cal = getCalib();
   if (!cal.hasOrigin || !cal.hasScale) return null;
+  const fx = (ix - cal.origin[0]) / cal.scale;
+  const fy = -(iy - cal.origin[1]) / cal.scale;
   return [
-    parseFloat(((ix - cal.origin[0]) / cal.scale).toFixed(2)),
-    parseFloat((-(iy - cal.origin[1]) / cal.scale).toFixed(2)),
+    parseFloat(snapToQuarter(fx).toFixed(2)),
+    parseFloat(snapToQuarter(fy).toFixed(2)),
   ];
 }
 
