@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request
-from app.logic import get_directions, get_options
+from app.logic import get_directions, get_options, get_floor_bounds
 
 bp = Blueprint('main', __name__)
 
@@ -12,6 +12,7 @@ def index():
 def directions():
     steps = None
     coordinates = None
+    floor_bounds = None
     error = None
     entrance = request.form.get('entrance')
     classroom = request.form.get('classroom')
@@ -25,11 +26,15 @@ def directions():
             else:
                 steps = result["directions"]
                 coordinates = result["coordinates"]
+                if coordinates:
+                    building = entrance.split('_')[0]
+                    floor = coordinates[0]["floor"]
+                    floor_bounds = get_floor_bounds(building, floor)
         except RuntimeError as e:
             error = str(e)
     entrances, classrooms = get_options()
-    return render_template('index.html', steps=steps, coordinates=coordinates, error=error,
-                           entranceOptions=entrances, classroomOptions=classrooms)
+    return render_template('index.html', steps=steps, coordinates=coordinates, floor_bounds=floor_bounds,
+                           error=error, entranceOptions=entrances, classroomOptions=classrooms)
 
 @bp.route('/api/test')
 def test():

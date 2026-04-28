@@ -56,6 +56,22 @@ def shortest_route(graph, start, end):
         return None
 
 
+def get_floor_bounds(building, floor):
+    repo_root = Path(__file__).resolve().parents[2]
+    floors_path = repo_root / "data" / "floors.json"
+    try:
+        with floors_path.open("r", encoding="utf-8") as f:
+            floors_data = json.load(f)
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Failed to load floors data from {floors_path}: {exc}") from exc
+    floor_str = str(floor)
+    try:
+        floor_info = floors_data[building][floor_str]
+    except KeyError:
+        raise RuntimeError(f"No floor data for {building} floor {floor_str}")
+    return {"width": floor_info["width_feet"], "height": floor_info["height_feet"]}
+
+
 def get_options():
     nodes_data, _ = read_json_files()
     entrances = [
