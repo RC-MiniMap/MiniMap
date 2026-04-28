@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>MiniMap - Dropdowns</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Choose Your Options</h1>
@@ -27,14 +32,8 @@
 
         <br><br>
 
-        <button type="Get Directions">Submit</button>
+        <button type="submit">Get Directions</button>
     </form>
-
-    <hr>
-
-    {% if error %}
-        <p style = "color: red">{{ error }}</p>
-    {% endif %}
 
     {# Show step-by-step directions if available #}
     {% if steps %}
@@ -46,19 +45,37 @@
         </ol>
     {% endif %}
 
+    <hr>
+
+    {% if error %}
+        <p style = "color: red">{{ error }}</p>
+    {% endif %}
+
     {% if steps %}
-    <div id="directions-panel">
-    <h2>Directions</h2>
+        <div id="directions-panel">
+        <h2>Directions</h2>
     
-    <div id="directions-card-container"></div>
+     <div id="directions-card-container"></div>
 
-    <script>
-        const directionSteps= {{  steps | tojson }};
-    </script>
+        <script>
+            const directionSteps= {{  steps | tojson }};
+        </script>
 
-    <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
-    </div>
+     <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
+        </div>
     
+    {% endif %}
+
+    {% if coordinates %}
+        <h2>Route Map</h2>
+        <div id="map"></div>
+        <script>
+            window.routeCoordinates = {{ coordinates | tojson }};
+            window.floorBounds = {{ floor_bounds | tojson }};
+        </script>
+
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="{{ url_for('static', filename='js/map.js') }}"></script>
     {% endif %}
 
 
