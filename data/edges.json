@@ -574,5 +574,41 @@
     "target": "NPB_5_spine_20",
     "weight": 5,
     "instruction": "Exit room 5.180 and continue."
+  },
+  {
+    "source": "NPB_5_spine_1",
+    "target": "NPB_5_spine_22",
+    "weight": 6,
+    "instruction": "Continue toward spine 22."
+  },
+  {
+    "source": "NPB_5_spine_22",
+    "target": "NPB_5_spine_1",
+    "weight": 6,
+    "instruction": "Continue toward spine 1."
+  },
+  {
+    "source": "NPB_5_E2",
+    "target": "NPB_5_spine_22",
+    "weight": 5,
+    "instruction": "Continue toward spine 22."
+  },
+  {
+    "source": "NPB_5_spine_22",
+    "target": "NPB_5_E2",
+    "weight": 5,
+    "instruction": "Continue toward 5.E2."
+  },
+  {
+    "source": "NPB_5_spine_22",
+    "target": "NPB_5_waypoint_1",
+    "weight": 8,
+    "instruction": "Continue toward Elevator Waypoint."
+  },
+  {
+    "source": "NPB_5_waypoint_1",
+    "target": "NPB_5_spine_22",
+    "weight": 8,
+    "instruction": "Continue toward spine 22."
   }
 ]
