@@ -43,18 +43,6 @@
      </div>
     {% endif %}
 
-    {# Show step-by-step directions if available #}
-    {% if steps %}
-      <div class="steps-box">
-        <h2>Step-by-step directions</h2>
-        <ol>
-            {% for step in steps %}
-                <li>{{ step }}</li>
-            {% endfor %}
-        </ol>
-      </div>
-    {% endif %}
-
     {% if steps %}
         <div id="directions-panel" class="directions-box">
         <h2>Directions</h2>
