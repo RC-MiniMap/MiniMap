@@ -4,25 +4,41 @@ body {
     background: #f4f5f7;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+ }
+
+ .container {
+   display: flex;
+   height: 100vh;
+   width: 100%;
+ }
+
+ .left-panel {
+   width: 50%;
+   background: white;
+   padding: 30px;
+   overflow-y: auto;
+   box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+ }
+
+ .right-panel {
+   width: 50%;
+   padding: 0;
+   overflow: hidden;
+ }
+
+ h1 {
+   text-align: center;
+   margin-top: 0;
+   margin-bottom: 30px;
+   color: #0c2340;
  }
 
  form {
     background: white;
-    padding: 30px;
-    margin-top: 60px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 350px;
- }
-
- h1 {
-    text-align: center;
-    margin-top: 40px;
-    color: #0c2340
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
  }
 
  label {
@@ -48,13 +64,6 @@ body {
     outline: none;
  }
 
- #map {
-    width: 100%;
-    height: 500px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
- }
 
  button{
     width: 100%;
@@ -71,9 +80,56 @@ body {
  button:hover {
     background: #d94e1d;
  }
+
+ .steps-box{
+   background: #fff8f0;
+   padding: 20px;
+   border-radius: 8px;
+   border-left: 5px solid #f15a22;
+   margin-bottom: 20px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ }
+ .steps-box h2 {
+   margin-top: 0;
+   color: #f15a22;
+   font-size: 18px;
+ }
+
+ .steps-box ol{
+   margin: 10px 0;
+   padding-left: 20px;
+ }
+ .ateps-box li {
+   margin-bottom: 8px;
+   color: #555;
+ }
+
+ .directions-box {
+   background: #f0f7ff;
+   padding: 20px;
+   border-radius: 8px;
+   border-left: 5px solid #007bff;
+   margin-bottom: 20px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ }
+
+ .direction-box h2 {
+   margin-top: 0;
+   color: #0c2340;
+   font-size: 18px;
+ }
+
+ .error-box{
+   background: #ffe0e0;
+   padding: 15px;
+   border-radius: 8px;
+   border-left: 5px solid #ff4d4d;
+   margin-bottom: 20px;
+ }
+
  #directions-panel {
-	margin-top: 20px;
-   padding: 10px;
+	margin-top: 0;
+   padding: 0px;
  }
 
  .direction-card {
@@ -113,6 +169,10 @@ body {
 @keyframes dashmove {
     from { stroke-dashoffset: 0; }
     to { stroke-dashoffset: 20; }
+}
+html {
+   height: 100%;
+   width: 100%;
 }
 
 #map {

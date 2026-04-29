@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Choose Your Options</h1>
+    <div class="container">
+        <div class="left-panel">
+            <h1>Choose Your Options</h1>
 
     <form method="post" action="/directions">
 
@@ -35,24 +37,26 @@
         <button type="submit">Get Directions</button>
     </form>
 
+    {% if error %}
+     <div class="error-box">
+        <p style = "color: red">{{ error }}</p>
+     </div>
+    {% endif %}
+
     {# Show step-by-step directions if available #}
     {% if steps %}
+      <div class="steps-box">
         <h2>Step-by-step directions</h2>
         <ol>
             {% for step in steps %}
                 <li>{{ step }}</li>
             {% endfor %}
         </ol>
-    {% endif %}
-
-    <hr>
-
-    {% if error %}
-        <p style = "color: red">{{ error }}</p>
+      </div>
     {% endif %}
 
     {% if steps %}
-        <div id="directions-panel">
+        <div id="directions-panel" class="directions-box">
         <h2>Directions</h2>
     
      <div id="directions-card-container"></div>
@@ -61,13 +65,14 @@
             const directionSteps= {{  steps | tojson }};
         </script>
 
-     <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
-        </div>
+        <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
+    </div>
     
     {% endif %}
-
+        </div>
+    <div class="right-panel">
     {% if coordinates %}
-        <h2>Route Map</h2>
+        
         <div id="map"></div>
         <script>
             window.routeCoordinates = {{ coordinates | tojson }};
@@ -76,7 +81,13 @@
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    {% else %}
+        <div id="map" style="background: #f4f5f7; display: flex; align-items: center; justify-content: center;">
+                <p style="color: #999;">Map will appear here after you select directions</p>
+            </div>
     {% endif %}
+    </div>
+    </div>
 
 
 </body>
