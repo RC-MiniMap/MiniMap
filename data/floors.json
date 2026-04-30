@@ -25,13 +25,16 @@
       "width_feet": 300,
       "height_feet": 60,
       "image": null,
-      "px_per_foot": null,
-      "origin_px": null
+      "px_per_foot": 12.1763,
+      "origin_px": [
+        1908,
+        2581
+      ]
     },
     "5": {
       "width_feet": 300,
       "height_feet": 60,
-      "image": "NPB 5th.png",
+      "image": "NPB 4th.png",
       "px_per_foot": 12.1763,
       "origin_px": [
         1671.6,
