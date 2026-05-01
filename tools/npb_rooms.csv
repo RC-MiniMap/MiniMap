@@ -28,23 +28,9 @@ NPB_5_130B_1,5.130B-1,NPB,5,room
 NPB_5_waypoint_1,Elevator Waypoint,NPB,5,waypoint
 NPB_5_waypoint_2,Waypoint 2,NPB,5,waypoint
 NPB_5_waypoint_3,Waypoint 3,NPB,5,waypoint
-NPB_5_spine_1,spine 1,NPB,5,spine
-NPB_5_spine_2,spine 2,NPB,5,spine
-NPB_5_spine_3,spine 3,NPB,5,spine
-NPB_5_spine_4,spine 4,NPB,5,spine
-NPB_5_spine_5,spine 5,NPB,5,spine
-NPB_5_spine_6,spine 6,NPB,5,spine
-NPB_5_spine_7,spine 7,NPB,5,spine
-NPB_5_spine_8,spine 8,NPB,5,spine
-NPB_5_spine_9,spine 9,NPB,5,spine
-NPB_5_spine_10,spine 10,NPB,5,spine
-NPB_5_spine_11,spine 11,NPB,5,spine
-NPB_5_spine_12,spine 12,NPB,5,spine
-NPB_5_spine_13,spine 13,NPB,5,spine
-NPB_5_spine_14,spine 14,NPB,5,spine
-NPB_5_spine_15,spine 15,NPB,5,spine
-NPB_5_spine_16,spine 16,NPB,5,spine
 NPB_4_E1,4.E1,NPB,4,elevator
+NPB_4_E2,4.E2,NPB,4,elevator
+NPB_4_410,4.410,NPB,4,room
 NPB_4_440,4.440,NPB,4,room
 NPB_4_467,4.467,NPB,4,room
 NPB_4_410_6_1,4.410.6-1,NPB,4,room
@@ -72,19 +58,100 @@ NPB_4_430,4.430,NPB,4,room
 NPB_4_waypoint_1,Elevator Waypoint,NPB,4,waypoint
 NPB_4_waypoint_2,Waypoint 2,NPB,4,waypoint
 NPB_4_waypoint_3,Waypoint 3,NPB,4,waypoint
-NPB_4_spine_1,spine 1,NPB,4,spine
-NPB_4_spine_2,spine 2,NPB,4,spine
-NPB_4_spine_3,spine 3,NPB,4,spine
-NPB_4_spine_4,spine 4,NPB,4,spine
-NPB_4_spine_5,spine 5,NPB,4,spine
-NPB_4_spine_6,spine 6,NPB,4,spine
-NPB_4_spine_7,spine 7,NPB,4,spine
-NPB_4_spine_8,spine 8,NPB,4,spine
-NPB_4_spine_9,spine 9,NPB,4,spine
-NPB_4_spine_10,spine 10,NPB,4,spine
-NPB_4_spine_11,spine 11,NPB,4,spine
-NPB_4_spine_12,spine 12,NPB,4,spine
-NPB_4_spine_13,spine 13,NPB,4,spine
-NPB_4_spine_14,spine 14,NPB,4,spine
-NPB_4_spine_15,spine 15,NPB,4,spine
-NPB_4_spine_16,spine 16,NPB,4,spine
+NPB_3_E1,3.E1,NPB,3,elevator
+NPB_3_E2,3.E2,NPB,3,elevator
+NPB_3_stairs_main,Main Stairs,NPB,3,staircase
+NPB_3_E3,3.E3,NPB,3,elevator
+NPB_3_S2,3.S2,NPB,3,staircase
+NPB_3_S1,3.S1,NPB,3,staircase
+NPB_3_110,3.110,NPB,3,room
+NPB_3_108A_1,3.108A-1,NPB,3,room
+NPB_3_108,3.108,NPB,3,room
+NPB_3_106,3.106,NPB,3,room
+NPB_3_104,3.104,NPB,3,room
+NPB_3_102,3.102,NPB,3,room
+NPB_3_108_1,3.108-1,NPB,3,room
+NPB_3_120_1,3.120-1,NPB,3,room
+NPB_3_122,3.122,NPB,3,room
+NPB_3_120,3.120,NPB,3,room
+NPB_3_126,3.126,NPB,3,room
+NPB_3_130,3.130,NPB,3,room
+NPB_3_138A_1,3.138A-1,NPB,3,room
+NPB_3_138,3.138,NPB,3,room
+NPB_3_138_1,3.138-1,NPB,3,room
+NPB_3_140,3.140,NPB,3,room
+NPB_3_142,3.142,NPB,3,room
+NPB_3_144,3.144,NPB,3,room
+NPB_3_148,3.148,NPB,3,room
+NPB_3_138_2,3.138-2,NPB,3,room
+NPB_3_146,3.146,NPB,3,room
+NPB_3_138D06_1,3.138D06-1,NPB,3,room
+NPB_3_138E_1,3.138E-1,NPB,3,room
+NPB_3_302,3.302,NPB,3,room
+NPB_3_304,3.304,NPB,3,room
+NPB_3_306,3.306,NPB,3,room
+NPB_3_308,3.308,NPB,3,room
+NPB_3_310,3.310,NPB,3,room
+NPB_3_312,3.312,NPB,3,room
+NPB_3_314,3.314,NPB,3,room
+NPB_3_316,3.316,NPB,3,room
+NPB_3_318,3.318,NPB,3,room
+NPB_3_320,3.320,NPB,3,room
+NPB_3_322,3.322,NPB,3,room
+NPB_3_324,3.324,NPB,3,room
+NPB_3_326,3.326,NPB,3,room
+NPB_3_328,3.328,NPB,3,room
+NPB_3_330,3.330,NPB,3,room
+NPB_3_332,3.332,NPB,3,room
+NPB_3_334,3.334,NPB,3,room
+NPB_3_336,3.336,NPB,3,room
+NPB_3_338,3.338,NPB,3,room
+NPB_3_340,3.340,NPB,3,room
+NPB_3_342,3.342,NPB,3,room
+NPB_3_344,3.344,NPB,3,room
+NPB_3_346,3.346,NPB,3,room
+NPB_3_348,3.348,NPB,3,room
+NPB_3_350,3.350,NPB,3,room
+NPB_3_352,3.352,NPB,3,room
+NPB_3_354,3.354,NPB,3,room
+NPB_3_356,3.356,NPB,3,room
+NPB_3_358,3.358,NPB,3,room
+NPB_3_360,3.360,NPB,3,room
+NPB_3_362,3.362,NPB,3,room
+NPB_3_364,3.364,NPB,3,room
+NPB_3_366,3.366,NPB,3,room
+NPB_3_368,3.368,NPB,3,room
+NPB_3_370,3.370,NPB,3,room
+NPB_3_372,3.372,NPB,3,room
+NPB_3_374,3.374,NPB,3,room
+NPB_3_376,3.376,NPB,3,room
+NPB_3_378,3.378,NPB,3,room
+NPB_3_380,3.380,NPB,3,room
+NPB_3_382,3.382,NPB,3,room
+NPB_3_384,3.384,NPB,3,room
+NPB_3_202,3.202,NPB,3,room
+NPB_3_204,3.204,NPB,3,room
+NPB_3_206,3.206,NPB,3,room
+NPB_3_208,3.208,NPB,3,room
+NPB_3_210,3.210,NPB,3,room
+NPB_3_212,3.212,NPB,3,room
+NPB_3_214,3.214,NPB,3,room
+NPB_3_216,3.216,NPB,3,room
+NPB_3_218,3.218,NPB,3,room
+NPB_3_220,3.220,NPB,3,room
+NPB_3_222,3.222,NPB,3,room
+NPB_3_224,3.224,NPB,3,room
+NPB_3_226,3.226,NPB,3,room
+NPB_3_228,3.228,NPB,3,room
+NPB_3_230,3.230,NPB,3,room
+NPB_3_232,3.232,NPB,3,room
+NPB_3_234,3.234,NPB,3,room
+NPB_3_waypoint_1,Elevator Waypoint,NPB,3,waypoint
+NPB_3_waypoint_2,Waypoint 2,NPB,3,waypoint
+NPB_3_waypoint_3,Waypoint 3,NPB,3,waypoint
+NPB_3_waypoint_4,Waypoint 4,NPB,3,waypoint
+NPB_3_waypoint_5,Waypoint 5,NPB,3,waypoint
+NPB_3_waypoint_6,Waypoint 6,NPB,3,waypoint
+NPB_3_waypoint_7,Waypoint 7,NPB,3,waypoint
+NPB_3_waypoint_8,Waypoint 8,NPB,3,waypoint
+NPB_3_waypoint_9,Waypoint 9,NPB,3,waypoint
