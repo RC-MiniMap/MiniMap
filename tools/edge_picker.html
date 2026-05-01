@@ -5,36 +5,48 @@
   <title>Edge Picker — Campus Navigator</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: sans-serif; background: #1a1a2e; color: #eee; display: flex; flex-direction: column; height: 100vh; }
+    body { font-family: sans-serif; background: #1a1a2e; color: #eee; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
     #toolbar {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 16px; background: #16213e; border-bottom: 1px solid #0f3460;
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px; background: #16213e; border-bottom: 1px solid #0f3460;
       flex-shrink: 0; flex-wrap: wrap;
     }
     #toolbar h1 { font-size: 1rem; color: #e94560; margin-right: 8px; }
-    #toolbar label { font-size: 0.85rem; color: #aaa; }
-    #toolbar input[type=file] { font-size: 0.8rem; }
+    #toolbar label { font-size: 0.8rem; color: #aaa; white-space: nowrap; }
+    #toolbar input[type=file] { font-size: 0.75rem; }
     #toolbar input[type=text], #toolbar input[type=number] {
       padding: 4px 8px; border-radius: 4px; border: 1px solid #0f3460;
-      background: #0f3460; color: #eee; font-size: 0.85rem;
+      background: #0f3460; color: #eee; font-size: 0.8rem; width: 70px;
     }
-    #filter-building { width: 70px; }
-    #filter-floor { width: 45px; }
-    button { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-    #btn-load { background: #0f3460; color: #eee; }
-    #btn-save { background: #e94560; color: #fff; }
-    #btn-save:disabled { background: #555; cursor: default; }
-    #status { font-size: 0.8rem; color: #aaa; margin-left: auto; }
+    button {
+      padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.82rem;
+      background: #0f3460; color: #eee; white-space: nowrap;
+    }
+    #btn-save-edges, #btn-save-nodes, #btn-straighten { background: #e94560; color: #fff; }
+    #btn-save-edges:disabled, #btn-save-nodes:disabled, #btn-straighten:disabled { background: #555; cursor: default; }
 
-    #main { display: flex; flex: 1; overflow: hidden; position: relative; }
+    #calibration-panel {
+      background: #0f2240; border-top: 1px solid #0f3460;
+      padding: 6px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex-shrink: 0;
+    }
+    #calibration-panel h2 { font-size: 0.85rem; color: #e94560; margin-right: 4px; }
+    #calibration-panel label { font-size: 0.78rem; color: #aaa; }
+    #calibration-panel input[type=number] {
+      width: 75px; padding: 3px 6px; border-radius: 4px; border: 1px solid #0f3460;
+      background: #0f3460; color: #eee; font-size: 0.78rem;
+    }
+    #calibration-panel .cal-warning {
+      font-size: 0.78rem; color: #ffaa00; margin-left: 8px;
+    }
+
+    #main { display: flex; flex: 1; overflow: hidden; }
 
     #canvas-wrap {
-      position: relative; flex: 1; overflow: hidden; background: #111;
-      cursor: crosshair;
+      position: relative; flex: 1; overflow: hidden; background: #fff;
+      cursor: crosshair; touch-action: none;
     }
-    #floorplan { position: absolute; top: 0; left: 0; display: none; opacity: 0.35; pointer-events: none; }
-    #overlay { display: block; width: 100%; height: 100%; }
+    canvas { position: absolute; top: 0; left: 0; }
 
     #sidebar {
       width: 280px; flex-shrink: 0; background: #16213e;
@@ -51,10 +63,16 @@
     }
     .node-item:hover { background: #1a4a80; }
     .node-item.selected { background: #e94560; }
+    .node-item.multi-selected { outline: 2px dashed rgba(233, 69, 96, 0.85); }
     .node-item .type-dot {
       width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
     }
     .node-item .node-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .node-item .node-coords { font-size: 0.7rem; color: #888; margin-left: 4px; white-space: nowrap; }
+    .node-item .unplaced-tag {
+      font-size: 0.65rem; color: #ffaa00; margin-left: 2px; flex-shrink: 0;
+    }
+    .node-item.unplaced { opacity: 0.5; }
 
     .edge-item {
       display: flex; align-items: center; gap: 6px;
@@ -81,11 +99,6 @@
       background: #7a3c00; color: #ffd580; font-size: 0.8rem;
       padding: 7px 14px; text-align: center; flex-shrink: 0;
       border-bottom: 1px solid #a05000; display: none;
-    }
-
-    .node-item.unplaced { opacity: 0.5; }
-    .node-item .unplaced-tag {
-      font-size: 0.65rem; color: #ffaa00; margin-left: 2px; flex-shrink: 0;
     }
 
     #edge-confirm {
@@ -131,10 +144,25 @@
   </label>
 
   <button id="btn-load">Load</button>
-  <button id="btn-save" disabled>Save edges.json</button>
+  <button id="btn-save-edges" disabled>Save edges.json</button>
+  <button id="btn-save-nodes" disabled>Save nodes.json</button>
+  <button id="btn-straighten" disabled>Straighten Selection</button>
   <button id="btn-reset-view">Reset View</button>
 
+  <label style="display:flex;align-items:center;gap:6px;">
+    <input type="checkbox" id="snap-grid" checked />
+    Snap to ¼ ft
+  </label>
+
   <span id="status">Select the data/ folder to begin.</span>
+</div>
+
+<div id="calibration-panel">
+  <h2>Calibration</h2>
+  <label>Origin X: <input type="number" step="0.5" id="cal-ox" readonly /></label>
+  <label>Origin Y: <input type="number" step="0.5" id="cal-oy" readonly /></label>
+  <label>px/ft: <input type="number" step="0.01" id="cal-px-ft" readonly /></label>
+  <span id="cal-warning" class="cal-warning" style="display:none;">No calibration — falling back to bounding-box origin.</span>
 </div>
 
 <div id="unplaced-warning">
@@ -143,7 +171,6 @@
 
 <div id="main">
   <div id="canvas-wrap">
-    <img id="floorplan" alt="" />
     <canvas id="overlay"></canvas>
   </div>
 
@@ -182,7 +209,9 @@
 
   let floorsData = null;
   let floorMeta = null;
-  let mousePos = { cx: 0, cy: 0 };   // canvas-pixel coords under cursor
+  let img = null;
+
+  let mousePos = { sx: 0, sy: 0 };   // screen coords under cursor
   let hoverNodeIndex = null;
   let hoveredEdgePair = null;
   let nodeA = null;
@@ -191,47 +220,58 @@
   let activeFilter = '';
   let activeFloor = NaN;
 
-  let zoomLevel = 1;
+  let zoom = 1;
   let panX = 0;
   let panY = 0;
   let isPanning = false;
-  let panStart = { x: 0, y: 0, panX0: 0, panY0: 0 };
+  let panStart = { x: 0, y: 0, px: 0, py: 0 };
 
-  let CANVAS_W = 900;
-  let CANVAS_H = 500;
+  let multiSelection = new Set(); // set of node IDs
 
-  // ── DOM refs ───────────────────────────────────────────────────────────────
-  const imgEl         = document.getElementById('floorplan');
-  const canvas        = document.getElementById('overlay');
-  const ctx           = canvas.getContext('2d');
-  const canvasWrap    = document.getElementById('canvas-wrap');
-  const nodeListEl    = document.getElementById('node-list');
-  const nodeCountEl   = document.getElementById('node-count');
-  const edgeListEl    = document.getElementById('edge-list');
-  const edgeCountEl   = document.getElementById('edge-count');
-  const statusEl      = document.getElementById('status');
-  const hintBar       = document.getElementById('hint-bar');
-  const filterBuilding = document.getElementById('filter-building');
-  const filterFloor    = document.getElementById('filter-floor');
-  const btnSave       = document.getElementById('btn-save');
-  const confirmDialog = document.getElementById('edge-confirm');
-  const confirmLabel  = document.getElementById('confirm-label');
-  const weightInput   = document.getElementById('edge-weight');
-  const warningBanner = document.getElementById('unplaced-warning');
+  // Calibration read from floorsData
+  let cal = { origin: null, scale: null, hasOrigin: false, hasScale: false };
+
+  // UI toggle
+  let snapGrid = true;
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────────
+  const canvasWrap     = document.getElementById('canvas-wrap');
+  const canvas           = document.getElementById('overlay');
+  const ctx              = canvas.getContext('2d');
+  const nodeListEl       = document.getElementById('node-list');
+  const nodeCountEl      = document.getElementById('node-count');
+  const edgeListEl       = document.getElementById('edge-list');
+  const edgeCountEl      = document.getElementById('edge-count');
+  const statusEl         = document.getElementById('status');
+  const hintBar          = document.getElementById('hint-bar');
+  const filterBuilding   = document.getElementById('filter-building');
+  const filterFloor      = document.getElementById('filter-floor');
+  const btnSaveEdges     = document.getElementById('btn-save-edges');
+  const btnSaveNodes     = document.getElementById('btn-save-nodes');
+  const btnStraighten    = document.getElementById('btn-straighten');
+  const confirmDialog    = document.getElementById('edge-confirm');
+  const confirmLabel     = document.getElementById('confirm-label');
+  const weightInput      = document.getElementById('edge-weight');
+  const warningBanner    = document.getElementById('unplaced-warning');
+  const snapGridCheckbox = document.getElementById('snap-grid');
+  const calOxInput       = document.getElementById('cal-ox');
+  const calOyInput       = document.getElementById('cal-oy');
+  const calPxFtInput     = document.getElementById('cal-px-ft');
+  const calWarning       = document.getElementById('cal-warning');
 
   function resizeCanvas() {
-    CANVAS_W = canvasWrap.clientWidth;
-    CANVAS_H = canvasWrap.clientHeight;
-    canvas.width  = CANVAS_W;
-    canvas.height = CANVAS_H;
-    imgEl.style.width  = CANVAS_W + 'px';
-    imgEl.style.height = CANVAS_H + 'px';
+    const rect = canvasWrap.getBoundingClientRect();
+    canvas.width  = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    canvas.style.width  = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
     redraw();
   }
 
   window.addEventListener('resize', resizeCanvas);
 
-  // ── Type colors ────────────────────────────────────────────────────────────
+  // ── Type colors ───────────────────────────────────────────────────────────
   const TYPE_COLOR = {
     room:      '#4caf50',
     elevator:  '#1a9bd6',
@@ -241,26 +281,100 @@
   };
   function nodeColor(node) { return TYPE_COLOR[node.type] || '#a8dadc'; }
 
-  // ── Coordinate math (feet ↔ canvas pixels) ────────────────────────────────
-  function getScale() {
+  // ── Calibration helpers ───────────────────────────────────────────────────
+  function getCalib() {
+    if (!floorMeta) return { origin: null, scale: null, hasOrigin: false, hasScale: false };
+    const hasOrigin = floorMeta.origin_px && Array.isArray(floorMeta.origin_px) && floorMeta.origin_px.length === 2;
+    const hasScale = typeof floorMeta.px_per_foot === 'number' && floorMeta.px_per_foot > 0;
+    return { origin: floorMeta.origin_px, scale: floorMeta.px_per_foot, hasOrigin, hasScale };
+  }
+
+  function updateCalibDisplay() {
+    const c = getCalib();
+    if (c.hasOrigin) {
+      calOxInput.value = c.origin[0];
+      calOyInput.value = c.origin[1];
+    } else {
+      calOxInput.value = '';
+      calOyInput.value = '';
+    }
+    if (c.hasScale) {
+      calPxFtInput.value = c.scale;
+    } else {
+      calPxFtInput.value = '';
+    }
+    calWarning.style.display = (!c.hasOrigin || !c.hasScale) ? 'inline' : 'none';
+    cal = c;
+  }
+
+  // ── Coordinate math (screen ↔ image pixels ↔ feet) ───────────────────────
+  function screenToImage(sx, sy) {
+    return { x: (sx - panX) / zoom, y: (sy - panY) / zoom };
+  }
+
+  function imageToScreen(ix, iy) {
+    return { x: ix * zoom + panX, y: iy * zoom + panY };
+  }
+
+  /* Old fallback: bounding-box origin math (canvas-centered origin) */
+  function getOldScale() {
     if (!floorMeta) return 4;
     return Math.min(
-      (CANVAS_W * 0.88) / floorMeta.width_feet,
-      (CANVAS_H * 0.88) / floorMeta.height_feet
+      (canvasWrap.clientWidth * 0.88) / floorMeta.width_feet,
+      (canvasWrap.clientHeight * 0.88) / floorMeta.height_feet
     );
   }
 
-  function feetToCanvas(fx, fy) {
-    const s = getScale() * zoomLevel;
-    return [CANVAS_W / 2 + fx * s + panX, CANVAS_H / 2 - fy * s + panY];
+  function feetToImageOld(fx, fy) {
+    const s = getOldScale() * zoom;
+    return [
+      canvasWrap.clientWidth / 2 + fx * s + panX,
+      canvasWrap.clientHeight / 2 - fy * s + panY,
+    ];
   }
 
-  function canvasToFeet(cx, cy) {
-    const s = getScale() * zoomLevel;
+  function imageToFeetOld(ix, iy) {
+    const s = getOldScale() * zoom;
     return [
-      Math.round((cx - CANVAS_W / 2 - panX) / s * 10) / 10,
-      Math.round(-(cy - CANVAS_H / 2 - panY) / s * 10) / 10
+      Math.round((ix - canvasWrap.clientWidth / 2 - panX) / s * 10) / 10,
+      Math.round(-(iy - canvasWrap.clientHeight / 2 - panY) / s * 10) / 10,
     ];
+  }
+
+  /* Calibration-based (px_per_foot + origin_px) from coord_picker.html */
+  function feetToImageCalib(fx, fy) {
+    if (!cal.hasOrigin || !cal.hasScale) return null;
+    return [
+      cal.origin[0] + fx * cal.scale,
+      cal.origin[1] - fy * cal.scale,
+    ];
+  }
+
+  function imageToFeetCalib(ix, iy) {
+    if (!cal.hasOrigin || !cal.hasScale) return null;
+    return [
+      parseFloat(((ix - cal.origin[0]) / cal.scale).toFixed(2)),
+      parseFloat((-(iy - cal.origin[1]) / cal.scale).toFixed(2)),
+    ];
+  }
+
+  /* Unified screen coords for node rendering */
+  function feetToScreen(fx, fy) {
+    if (cal.hasOrigin && cal.hasScale) {
+      const im = feetToImageCalib(fx, fy);
+      if (im) return imageToScreen(im[0], im[1]);
+    }
+    const old = feetToImageOld(fx, fy);
+    return { x: old[0], y: old[1] };
+  }
+
+  function screenToFeet(sx, sy) {
+    const im = screenToImage(sx, sy);
+    if (cal.hasOrigin && cal.hasScale) {
+      const ft = imageToFeetCalib(im.x, im.y);
+      if (ft) return ft;
+    }
+    return imageToFeetOld(im.x, im.y);
   }
 
   function isPlaced(node) {
@@ -270,7 +384,13 @@
            node.coords[1] !== null;
   }
 
-  // ── File loaders ──────────────────────────────────────────────────────────
+  // ── Quarter-foot helper ─────────────────────────────────────────────────────
+  function roundQuarterFoot(val) {
+    if (!snapGrid) return val;
+    return Math.round(val * 4) / 4;
+  }
+
+  // ── File loaders ───────────────────────────────────────────────────────────
 
   document.getElementById('data-dir').addEventListener('change', (e) => {
     const files = Array.from(e.target.files);
@@ -285,9 +405,10 @@
       if (--pending > 0) return;
       nodesById = {};
       nodes.forEach(n => nodesById[n.id] = n);
-      btnSave.disabled = false;
+      btnSaveEdges.disabled = false;
+      btnSaveNodes.disabled = false;
       hintBar.style.display = 'block';
-      tryUpdateFloorMeta();
+      updateCalibDisplay();
       renderNodeList();
       renderEdgeList();
       redraw();
@@ -297,11 +418,11 @@
         setStatus(`Loaded ${nodes.length} nodes — none placed yet. Use coord_picker.html first!`);
       } else {
         warningBanner.style.display = 'none';
-        setStatus(`Loaded ${nodes.length} nodes (${placed} placed) + ${edges.length} directed edges from data/.`);
+        setStatus(`Loaded ${nodes.length} nodes (${placed} placed) + ${edges.length} directed edges.`);
       }
     }
-    readJSON(floorsFile, (data) => { floorsData = data;                       onCoreLoaded(); });
-    readJSON(nodesFile,  (data) => { nodes = data;                            onCoreLoaded(); });
+    readJSON(floorsFile, (data) => { floorsData = data; onCoreLoaded(); });
+    readJSON(nodesFile,  (data) => { nodes = data;    onCoreLoaded(); });
     if (edgesFile) readJSON(edgesFile, (data) => {
       edges = Array.isArray(data) ? data : [];
       rebuildEdgeSet();
@@ -311,14 +432,16 @@
   document.getElementById('img-input').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    imgEl.onload = () => {
-      imgEl.style.display = 'block';
-      imgEl.style.width  = CANVAS_W + 'px';
-      imgEl.style.height = CANVAS_H + 'px';
+    img = new Image();
+    img.onload = () => {
+      // Center image in viewport
+      panX = (canvasWrap.clientWidth - img.naturalWidth) / 2;
+      panY = (canvasWrap.clientHeight - img.naturalHeight) / 2;
+      zoom = 1;
       redraw();
-      setStatus('Image loaded (visual reference, 35% opacity).');
+      setStatus(`Image loaded: ${img.naturalWidth}x${img.naturalHeight}`);
     };
-    imgEl.src = URL.createObjectURL(file);
+    img.src = URL.createObjectURL(file);
   });
 
   function readJSON(file, cb) {
@@ -330,7 +453,7 @@
     reader.readAsText(file);
   }
 
-  // ── Floor metadata ────────────────────────────────────────────────────────
+  // ── Floor metadata / filters ────────────────────────────────────────────────
 
   document.getElementById('btn-load').addEventListener('click', applyFilter);
   filterBuilding.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyFilter(); });
@@ -351,59 +474,54 @@
     const f = filterFloor.value.trim() || '5';
     if (floorsData[b] && floorsData[b][f]) {
       floorMeta = floorsData[b][f];
-      redraw();
+      updateCalibDisplay();
     }
   }
+
+  snapGridCheckbox.addEventListener('change', (e) => {
+    snapGrid = e.target.checked;
+    setStatus(snapGrid ? 'Snap to ¼ ft grid ON' : 'Snap to ¼ ft grid OFF');
+  });
 
   // ── Zoom & pan ─────────────────────────────────────────────────────────────
   canvasWrap.addEventListener('wheel', (e) => {
     e.preventDefault();
-    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
+    const { sx, sy } = getLocalPos(e);
     const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
-    const newZoom = Math.max(0.25, Math.min(12, zoomLevel * factor));
-    const ratio = newZoom / zoomLevel;
-    panX = panX + (cx - CANVAS_W / 2 - panX) * (1 - ratio);
-    panY = panY + (cy - CANVAS_H / 2 - panY) * (1 - ratio);
-    zoomLevel = newZoom;
+    const newZoom = Math.max(0.1, Math.min(20, zoom * factor));
+    const ratio = newZoom / zoom;
+    panX = sx - (sx - panX) * ratio;
+    panY = sy - (sy - panY) * ratio;
+    zoom = newZoom;
     redraw();
   }, { passive: false });
 
   canvasWrap.addEventListener('mousedown', (e) => {
-    if (e.button === 1) {
+    if (e.button === 1 || (e.button === 0 && e.shiftKey)) {
       e.preventDefault();
       isPanning = true;
-      panStart = { x: e.clientX, y: e.clientY, panX0: panX, panY0: panY };
+      panStart = { x: e.clientX, y: e.clientY, px: panX, py: panY };
       canvasWrap.style.cursor = 'grabbing';
     }
   });
 
-  document.addEventListener('mouseup', (e) => {
-    if (e.button === 1 && isPanning) {
+  document.addEventListener('mouseup', () => {
+    if (isPanning) {
       isPanning = false;
       canvasWrap.style.cursor = 'crosshair';
     }
   });
 
-  function resetView() {
-    zoomLevel = 1;
-    panX = 0;
-    panY = 0;
-    redraw();
-  }
-
-  document.getElementById('btn-reset-view').addEventListener('click', resetView);
-
-  // ── Canvas: mousemove ──────────────────────────────────────────────────────
-  canvasWrap.addEventListener('mousemove', (e) => {
+  document.addEventListener('mousemove', (e) => {
     if (isPanning) {
-      panX = panStart.panX0 + (e.clientX - panStart.x);
-      panY = panStart.panY0 + (e.clientY - panStart.y);
+      panX = panStart.px + (e.clientX - panStart.x);
+      panY = panStart.py + (e.clientY - panStart.y);
       redraw();
       return;
     }
-    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
-    mousePos = { cx, cy };
-    const idx = findNodeNear(cx, cy);
+    const { sx, sy } = getLocalPos(e);
+    mousePos = { sx, sy };
+    const idx = findNodeNear(sx, sy);
     if (idx !== hoverNodeIndex) {
       hoverNodeIndex = idx;
       redraw();
@@ -412,11 +530,49 @@
     }
   });
 
-  // ── Canvas: click ──────────────────────────────────────────────────────────
+  function getLocalPos(e) {
+    const rect = canvasWrap.getBoundingClientRect();
+    return { sx: e.clientX - rect.left, sy: e.clientY - rect.top };
+  }
+
+  function resetView() {
+    zoom = 1;
+    panX = img ? (canvasWrap.clientWidth - img.naturalWidth) / 2 : 0;
+    panY = img ? (canvasWrap.clientHeight - img.naturalHeight) / 2 : 0;
+    redraw();
+  }
+
+  document.getElementById('btn-reset-view').addEventListener('click', resetView);
+
+  // ── Canvas click ───────────────────────────────────────────────────────────
   canvasWrap.addEventListener('click', (e) => {
     if (mode === 'CONFIRMING') return;
-    const { cx, cy } = clientToCanvas(e.clientX, e.clientY);
-    const idx = findNodeNear(cx, cy);
+    if (isPanning) return;
+    const { sx, sy } = getLocalPos(e);
+    const idx = findNodeNear(sx, sy);
+
+    if (e.shiftKey) {
+      // Shift-click: toggle multi-selection
+      if (idx !== null) {
+        const node = nodes[idx];
+        if (multiSelection.has(node.id)) {
+          multiSelection.delete(node.id);
+        } else {
+          multiSelection.add(node.id);
+        }
+        renderNodeList();
+        redraw();
+      }
+      return;
+    }
+
+    // Normal click: clear multi-selection first
+    if (multiSelection.size > 0) {
+      multiSelection.clear();
+      renderNodeList();
+      redraw();
+    }
+
     if (idx === null) return;
 
     if (mode === 'IDLE') {
@@ -428,11 +584,41 @@
     } else if (mode === 'SELECTING_B') {
       if (nodes[idx].id === nodeA.id) return;
       nodeB = nodes[idx];
+
+      // ── EDGE AUTO-SNAP ──
+      if (isPlaced(nodeA) && isPlaced(nodeB)) {
+        const [ax, ay] = nodeA.coords;
+        const [bx, by] = nodeB.coords;
+        const dx = Math.abs(bx - ax);
+        const dy = Math.abs(by - ay);
+        let snapped = false;
+        let oldVal, newVal, axis;
+        if (dy < dx) {
+          // Snap Y: horizontal edge
+          oldVal = by;
+          newVal = roundQuarterFoot(ay);
+          axis = 'Y';
+          nodeB.coords[1] = newVal;
+          snapped = true;
+        } else if (dx < dy) {
+          // Snap X: vertical edge
+          oldVal = bx;
+          newVal = roundQuarterFoot(ax);
+          axis = 'X';
+          nodeB.coords[0] = newVal;
+          snapped = true;
+        }
+        if (snapped) {
+          renderNodeList();
+          setStatus(`Snapped ${nodeB.id} ${axis} from ${oldVal} → ${newVal} for alignment.`);
+        }
+      }
+
       openConfirmDialog();
     }
   });
 
-  // ── Keyboard: Escape / Enter ───────────────────────────────────────────────
+  // ── Keyboard ───────────────────────────────────────────────────────────────
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && (mode === 'SELECTING_B' || mode === 'CONFIRMING')) resetMode();
     if (e.key === 'Enter'  && mode === 'CONFIRMING') confirmEdge();
@@ -443,7 +629,6 @@
     mode = 'CONFIRMING';
     confirmLabel.textContent = `${nodeA.name || nodeA.id} ↔ ${nodeB.name || nodeB.id}`;
 
-    // Pre-fill weight from Euclidean feet distance if both placed
     if (isPlaced(nodeA) && isPlaced(nodeB)) {
       const [ax, ay] = nodeA.coords;
       const [bx, by] = nodeB.coords;
@@ -521,7 +706,36 @@
     setStatus(`Deleted: ${srcId} ↔ ${tgtId}`);
   }
 
-  // ── Filter helpers ─────────────────────────────────────────────────────────
+  // ── Multi-node straighten ──────────────────────────────────────────────────
+  btnStraighten.addEventListener('click', () => {
+    if (multiSelection.size < 2) return;
+    const selected = nodes.filter(n => multiSelection.has(n.id) && isPlaced(n));
+    if (selected.length < 2) return;
+
+    const xs = selected.map(n => n.coords[0]);
+    const ys = selected.map(n => n.coords[1]);
+    const xRange = Math.max(...xs) - Math.min(...xs);
+    const yRange = Math.max(...ys) - Math.min(...ys);
+
+    let snapAxis, snapValue;
+    if (yRange > xRange) {
+      // Vertically oriented: snap X to average X
+      snapAxis = 'X';
+      snapValue = roundQuarterFoot(xs.reduce((a, b) => a + b, 0) / xs.length);
+      selected.forEach(n => n.coords[0] = snapValue);
+    } else {
+      // Horizontally oriented (or equal): snap Y to average Y
+      snapAxis = 'Y';
+      snapValue = roundQuarterFoot(ys.reduce((a, b) => a + b, 0) / ys.length);
+      selected.forEach(n => n.coords[1] = snapValue);
+    }
+
+    setStatus(`Straightened ${selected.length} nodes, snapped ${snapAxis} to ${snapValue}.`);
+    renderNodeList();
+    redraw();
+  });
+
+  // ── Filter helpers ───────────────────────────────────────────────────────
   function nodeVisible(node) {
     if (activeFilter && (node.building || '').toLowerCase() !== activeFilter) return false;
     if (!isNaN(activeFloor) && node.floor !== activeFloor) return false;
@@ -532,11 +746,13 @@
   function renderNodeList() {
     nodeListEl.innerHTML = '';
     let shown = 0;
+    btnStraighten.disabled = multiSelection.size < 2;
     nodes.forEach((node, i) => {
       if (!nodeVisible(node)) return;
       const div = document.createElement('div');
       const isSel = nodeA && node.id === nodeA.id;
-      div.className = 'node-item' + (isSel ? ' selected' : '');
+      const isMulti = multiSelection.has(node.id);
+      div.className = 'node-item' + (isSel ? ' selected' : '') + (isMulti ? ' multi-selected' : '');
       if (!isPlaced(node)) div.classList.add('unplaced');
 
       const dot = document.createElement('span');
@@ -548,8 +764,13 @@
       label.title = node.id;
       label.textContent = node.name || node.id;
 
+      const coordsSpan = document.createElement('span');
+      coordsSpan.className = 'node-coords';
+      coordsSpan.textContent = isPlaced(node) ? `[${node.coords[0]}, ${node.coords[1]}]` : '';
+
       div.appendChild(dot);
       div.appendChild(label);
+      div.appendChild(coordsSpan);
 
       if (!isPlaced(node)) {
         const tag = document.createElement('span');
@@ -559,18 +780,52 @@
         div.appendChild(tag);
       }
 
-      div.addEventListener('click', () => {
+      div.addEventListener('click', (e) => {
         if (mode === 'CONFIRMING') return;
+        if (e.shiftKey) {
+          if (multiSelection.has(node.id)) {
+            multiSelection.delete(node.id);
+          } else {
+            multiSelection.add(node.id);
+          }
+          renderNodeList();
+          redraw();
+          return;
+        }
+        // normal click
+        if (multiSelection.size > 0) {
+          multiSelection.clear();
+          renderNodeList();
+          redraw();
+        }
         if (mode === 'IDLE') {
           nodeA = node;
           mode  = 'SELECTING_B';
           setHint(`"${nodeA.name || nodeA.id}" selected — now click the second node. (Esc to cancel)`);
           renderNodeList();
           redraw();
-          scrollToNode(i);
         } else if (mode === 'SELECTING_B') {
           if (node.id === nodeA.id) return;
           nodeB = node;
+          // auto-snap
+          if (isPlaced(nodeA) && isPlaced(nodeB)) {
+            const [ax, ay] = nodeA.coords;
+            const [bx, by] = nodeB.coords;
+            const dx = Math.abs(bx - ax);
+            const dy = Math.abs(by - ay);
+            let snapped = false, oldVal, newVal, axis;
+            if (dy < dx) {
+              oldVal = by; newVal = roundQuarterFoot(ay); axis = 'Y';
+              nodeB.coords[1] = newVal; snapped = true;
+            } else if (dx < dy) {
+              oldVal = bx; newVal = roundQuarterFoot(ax); axis = 'X';
+              nodeB.coords[0] = newVal; snapped = true;
+            }
+            if (snapped) {
+              renderNodeList();
+              setStatus(`Snapped ${nodeB.id} ${axis} from ${oldVal} → ${newVal} for alignment.`);
+            }
+          }
           openConfirmDialog();
         }
       });
@@ -583,13 +838,10 @@
 
   function scrollToNode(index) {
     if (!isPlaced(nodes[index])) return;
-    const [cx, cy] = feetToCanvas(nodes[index].coords[0], nodes[index].coords[1]);
-    const dispScale = canvas.offsetWidth / CANVAS_W;
-    canvasWrap.scrollTo({
-      left: cx * dispScale - canvasWrap.clientWidth  / 2,
-      top:  cy * dispScale - canvasWrap.clientHeight / 2,
-      behavior: 'smooth',
-    });
+    const pos = feetToScreen(nodes[index].coords[0], nodes[index].coords[1]);
+    panX = canvasWrap.clientWidth / 2 - pos.x + panX;
+    panY = canvasWrap.clientHeight / 2 - pos.y + panY;
+    redraw();
   }
 
   // ── renderEdgeList ─────────────────────────────────────────────────────────
@@ -646,97 +898,141 @@
 
   // ── redraw ─────────────────────────────────────────────────────────────────
   function redraw() {
-    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-    ctx.setLineDash([]);
+    const W = canvasWrap.clientWidth;
+    const H = canvasWrap.clientHeight;
+    ctx.clearRect(0, 0, W, H);
 
-    // Background
-    ctx.fillStyle = '#1a1a2e';
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    // White background
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, W, H);
 
     if (!floorMeta) {
-      ctx.fillStyle = '#555';
-      ctx.font = '15px sans-serif';
+      ctx.fillStyle = '#888';
       ctx.textAlign = 'center';
-      ctx.fillText('Load floors.json and set Building/Floor, then click Load.', CANVAS_W / 2, CANVAS_H / 2);
+      ctx.font = '14px sans-serif';
+      ctx.fillText('Load floors.json and set Building/Floor, then click Load.', W / 2, H / 2);
       ctx.textAlign = 'left';
       return;
     }
 
-    // Grid lines every 10 ft
-    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    // ── Image background via drawImage (unified zoom/pan) ──
+    if (img) {
+      const ix = imageToScreen(0, 0).x;
+      const iy = imageToScreen(0, 0).y;
+      const iw = img.naturalWidth * zoom;
+      const ih = img.naturalHeight * zoom;
+      ctx.drawImage(img, ix, iy, iw, ih);
+    }
+
+    // ── Grid lines every 10 ft (drawn using calibration or fallback) ──
+    const showFallbackGrid = !cal.hasOrigin || !cal.hasScale;
+    ctx.strokeStyle = showFallbackGrid ? 'rgba(0,0,0,0.06)' : 'rgba(0,0,0,0.06)';
     ctx.lineWidth = 1;
-    const hw = floorMeta.width_feet  / 2 + 10;
-    const hh = floorMeta.height_feet / 2 + 10;
-    for (let x = -Math.ceil(hw / 10) * 10; x <= hw; x += 10) {
-      const [cx] = feetToCanvas(x, 0);
-      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, CANVAS_H); ctx.stroke();
-    }
-    for (let y = -Math.ceil(hh / 10) * 10; y <= hh; y += 10) {
-      const [, cy] = feetToCanvas(0, y);
-      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(CANVAS_W, cy); ctx.stroke();
+
+    if (showFallbackGrid) {
+      // Light reference grid on white canvas when not calibrated
+      const hw = floorMeta.width_feet  / 2 + 10;
+      const hh = floorMeta.height_feet / 2 + 10;
+      for (let x = -Math.ceil(hw / 10) * 10; x <= hw; x += 10) {
+        const p = feetToScreen(x, 0);
+        ctx.beginPath(); ctx.moveTo(p.x, 0); ctx.lineTo(p.x, H); ctx.stroke();
+      }
+      for (let y = -Math.ceil(hh / 10) * 10; y <= hh; y += 10) {
+        const p = feetToScreen(0, y);
+        ctx.beginPath(); ctx.moveTo(0, p.y); ctx.lineTo(W, p.y); ctx.stroke();
+      }
+    } else {
+      // Calibration-based grid: grid lines in feet space mapped through full transform
+      // For simplicity, draw a sparse 50-ft grid in calibrated mode too
+      const hw = floorMeta.width_feet + 20;
+      const hh = floorMeta.height_feet + 20;
+      for (let x = -Math.ceil(hw / 10) * 10; x <= hw; x += 10) {
+        const p1 = feetToScreen(x, -hh);
+        const p2 = feetToScreen(x, hh);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+      for (let y = -Math.ceil(hh / 10) * 10; y <= hh; y += 10) {
+        const p1 = feetToScreen(-hw, y);
+        const p2 = feetToScreen(hw, y);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
     }
 
-    // Floor bounding box
-    const [bx1, by1] = feetToCanvas(-floorMeta.width_feet / 2,  floorMeta.height_feet / 2);
-    const [bx2, by2] = feetToCanvas( floorMeta.width_feet / 2, -floorMeta.height_feet / 2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(bx1, by1, bx2 - bx1, by2 - by1);
-
-    // Origin crosshair
-    const [ox, oy] = feetToCanvas(0, 0);
-    ctx.strokeStyle = '#e94560';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([4, 3]);
-    ctx.beginPath(); ctx.moveTo(ox - 14, oy); ctx.lineTo(ox + 14, oy); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(ox, oy - 14); ctx.lineTo(ox, oy + 14); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#e94560';
-    ctx.font = '11px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('origin (0, 0)', ox, oy - 18);
+    // Floor bounding box (fallback only) or origin marker
+    if (!cal.hasOrigin || !cal.hasScale) {
+      const p1 = feetToScreen(-floorMeta.width_feet / 2,  floorMeta.height_feet / 2);
+      const p2 = feetToScreen( floorMeta.width_feet / 2, -floorMeta.height_feet / 2);
+      ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+      // Origin crosshair at canvas center (old behavior)
+      const o = feetToScreen(0, 0);
+      ctx.strokeStyle = '#e94560';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(o.x - 14, o.y); ctx.lineTo(o.x + 14, o.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(o.x, o.y - 14); ctx.lineTo(o.x, o.y + 14); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#e94560';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('origin (0, 0)', o.x, o.y - 18);
+    } else {
+      // Real origin marker from calibration
+      const o = feetToScreen(0, 0);
+      ctx.strokeStyle = '#e94560';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(o.x - 14, o.y); ctx.lineTo(o.x + 14, o.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(o.x, o.y - 14); ctx.lineTo(o.x, o.y + 14); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#e94560';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Origin (0,0)', o.x, o.y - 18);
+    }
     ctx.textAlign = 'left';
 
-    // 1. Normal edges
+    // ── Edges ──
     edges.forEach(e => {
       const nA = nodesById[e.source], nB = nodesById[e.target];
       if (!nA || !nB || !nodeVisible(nA) || !nodeVisible(nB)) return;
       if (!isPlaced(nA) || !isPlaced(nB)) return;
-      const [ax, ay] = feetToCanvas(nA.coords[0], nA.coords[1]);
-      const [bx, by] = feetToCanvas(nB.coords[0], nB.coords[1]);
+      const a = feetToScreen(nA.coords[0], nA.coords[1]);
+      const b = feetToScreen(nB.coords[0], nB.coords[1]);
       const canonKey = [e.source, e.target].sort().join('|');
       if (canonKey === hoveredEdgePair) return;
 
       ctx.beginPath();
-      ctx.moveTo(ax, ay);
-      ctx.lineTo(bx, by);
-      ctx.strokeStyle = 'rgba(100, 180, 255, 0.45)';
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = 'rgba(100, 180, 255, 0.55)';
       ctx.lineWidth = 2;
       ctx.stroke();
     });
 
-    // 2. Highlighted (hovered) edge
+    // Hovered edge
     if (hoveredEdgePair) {
       const [idA, idB] = hoveredEdgePair.split('|');
       const nA = nodesById[idA], nB = nodesById[idB];
       if (nA && nB && isPlaced(nA) && isPlaced(nB)) {
-        const [ax, ay] = feetToCanvas(nA.coords[0], nA.coords[1]);
-        const [bx, by] = feetToCanvas(nB.coords[0], nB.coords[1]);
+        const a = feetToScreen(nA.coords[0], nA.coords[1]);
+        const b = feetToScreen(nB.coords[0], nB.coords[1]);
         ctx.beginPath();
-        ctx.moveTo(ax, ay);
-        ctx.lineTo(bx, by);
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = 'rgba(255, 200, 80, 0.9)';
         ctx.lineWidth = 3;
         ctx.stroke();
       }
     }
 
-    // 3. Ghost line from nodeA to cursor
+    // Ghost line from nodeA to cursor
     if (mode === 'SELECTING_B' && nodeA && isPlaced(nodeA)) {
-      const [ax, ay] = feetToCanvas(nodeA.coords[0], nodeA.coords[1]);
+      const a = feetToScreen(nodeA.coords[0], nodeA.coords[1]);
       ctx.beginPath();
-      ctx.moveTo(ax, ay);
-      ctx.lineTo(mousePos.cx, mousePos.cy);
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(mousePos.sx, mousePos.sy);
       ctx.strokeStyle = 'rgba(233, 69, 96, 0.65)';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([6, 4]);
@@ -744,12 +1040,13 @@
       ctx.setLineDash([]);
     }
 
-    // 4. Nodes
+    // ── Nodes ──
     nodes.forEach((node, i) => {
       if (!nodeVisible(node) || !isPlaced(node)) return;
-      const [cx, cy] = feetToCanvas(node.coords[0], node.coords[1]);
+      const s = feetToScreen(node.coords[0], node.coords[1]);
       const isNodeA   = nodeA && node.id === nodeA.id;
       const isHovered = i === hoverNodeIndex;
+      const isMulti   = multiSelection.has(node.id);
 
       let fill   = nodeColor(node);
       let radius = 7;
@@ -757,57 +1054,57 @@
       else if (isHovered) { fill = '#ffe066'; radius = 9; }
 
       ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.arc(s.x, s.y, radius, 0, Math.PI * 2);
       ctx.fillStyle = fill;
       ctx.fill();
       ctx.strokeStyle = '#fff';
       ctx.lineWidth = 2;
       ctx.stroke();
 
+      if (isMulti) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, radius + 4, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(233, 69, 96, 0.85)';
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([3, 2]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
       const label = node.name || node.id;
       ctx.font = `${isNodeA ? 'bold ' : ''}12px sans-serif`;
-      ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
       ctx.lineWidth = 3;
-      ctx.strokeText(label, cx + 12, cy + 4);
-      ctx.fillStyle = '#fff';
-      ctx.fillText(label, cx + 12, cy + 4);
+      ctx.strokeText(label, s.x + 12, s.y + 4);
+      ctx.fillStyle = '#222';
+      ctx.fillText(label, s.x + 12, s.y + 4);
     });
   }
 
   // ── Coordinate helpers ─────────────────────────────────────────────────────
-  function clientToCanvas(clientX, clientY) {
-    const rect   = canvas.getBoundingClientRect();
-    const scaleX = CANVAS_W / canvas.offsetWidth;
-    const scaleY = CANVAS_H / canvas.offsetHeight;
-    return {
-      cx: (clientX - rect.left) * scaleX,
-      cy: (clientY - rect.top)  * scaleY,
-    };
-  }
-
-  function findNodeNear(cx, cy) {
-    const HIT = 14;   // canvas pixels
+  function findNodeNear(sx, sy) {
+    const HIT = 14;   // screen pixels
     for (let i = nodes.length - 1; i >= 0; i--) {
       if (!nodeVisible(nodes[i]) || !isPlaced(nodes[i])) continue;
-      const [ncx, ncy] = feetToCanvas(nodes[i].coords[0], nodes[i].coords[1]);
-      if (Math.hypot(cx - ncx, cy - ncy) <= HIT) return i;
+      const s = feetToScreen(nodes[i].coords[0], nodes[i].coords[1]);
+      if (Math.hypot(sx - s.x, sy - s.y) <= HIT) return i;
     }
     return null;
   }
 
   // ── Save ──────────────────────────────────────────────────────────────────
-  btnSave.addEventListener('click', async () => {
-    const json = JSON.stringify(edges, null, 2);
+  async function writeJSON(filename, data) {
+    const json = JSON.stringify(data, null, 2);
     if (window.showSaveFilePicker) {
       try {
         const handle = await window.showSaveFilePicker({
-          suggestedName: 'edges.json',
+          suggestedName: filename,
           types: [{ description: 'JSON file', accept: { 'application/json': ['.json'] } }],
         });
         const writable = await handle.createWritable();
         await writable.write(json);
         await writable.close();
-        setStatus(`Saved to ${handle.name} (${edges.length} directed edges).`);
+        setStatus(`Saved to ${handle.name} (${data.length} items).`);
       } catch (err) {
         if (err.name !== 'AbortError') setStatus('Save failed: ' + err.message);
       }
@@ -815,11 +1112,14 @@
       const blob = new Blob([json], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'edges.json';
+      a.download = filename;
       a.click();
-      setStatus(`edges.json downloaded (${edges.length} directed edges).`);
+      setStatus(`${filename} downloaded (${data.length} items).`);
     }
-  });
+  }
+
+  btnSaveEdges.addEventListener('click', () => writeJSON('edges.json', edges));
+  btnSaveNodes.addEventListener('click', () => writeJSON('nodes.json', nodes));
 
   // ── UI helpers ─────────────────────────────────────────────────────────────
   function setStatus(msg) { statusEl.textContent = msg; }

@@ -25,3 +25,9 @@ instance/
 
 # AWS Credentials
 *.pem
+
+# AI
+.opencode
+
+# floorplan data
+floorplans/
