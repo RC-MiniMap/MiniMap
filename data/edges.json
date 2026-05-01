@@ -3334,5 +3334,149 @@
     "target": "NPB_3_spine_72",
     "weight": 6,
     "instruction": "Exit room 3.138B and continue."
+  },
+  {
+    "source": "NPB_3_E1",
+    "target": "NPB_4_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 4."
+  },
+  {
+    "source": "NPB_4_E1",
+    "target": "NPB_3_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 3."
+  },
+  {
+    "source": "NPB_3_E1",
+    "target": "NPB_5_E1",
+    "weight": 40,
+    "instruction": "Take elevator E1 to floor 5."
+  },
+  {
+    "source": "NPB_5_E1",
+    "target": "NPB_3_E1",
+    "weight": 40,
+    "instruction": "Take elevator E1 to floor 3."
+  },
+  {
+    "source": "NPB_4_E1",
+    "target": "NPB_5_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 5."
+  },
+  {
+    "source": "NPB_5_E1",
+    "target": "NPB_4_E1",
+    "weight": 20,
+    "instruction": "Take elevator E1 to floor 4."
+  },
+  {
+    "source": "NPB_3_S1",
+    "target": "NPB_4_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_S1",
+    "target": "NPB_3_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 3."
+  },
+  {
+    "source": "NPB_4_S1",
+    "target": "NPB_5_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_S1",
+    "target": "NPB_4_S1",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_3_stairs_main",
+    "target": "NPB_4_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_stairs_main",
+    "target": "NPB_3_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 3."
+  },
+  {
+    "source": "NPB_4_stairs_main",
+    "target": "NPB_5_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_stairs_main",
+    "target": "NPB_4_stairs_main",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_3_E3",
+    "target": "NPB_4_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 4."
+  },
+  {
+    "source": "NPB_4_E3",
+    "target": "NPB_3_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 3."
+  },
+  {
+    "source": "NPB_3_E3",
+    "target": "NPB_5_E3",
+    "weight": 40,
+    "instruction": "Take elevator E3 to floor 5."
+  },
+  {
+    "source": "NPB_5_E3",
+    "target": "NPB_3_E3",
+    "weight": 40,
+    "instruction": "Take elevator E3 to floor 3."
+  },
+  {
+    "source": "NPB_4_E3",
+    "target": "NPB_5_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 5."
+  },
+  {
+    "source": "NPB_5_E3",
+    "target": "NPB_4_E3",
+    "weight": 20,
+    "instruction": "Take elevator E3 to floor 4."
+  },
+  {
+    "source": "NPB_3_S2",
+    "target": "NPB_4_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
+  },
+  {
+    "source": "NPB_4_S2",
+    "target": "NPB_3_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 3."
+  },
+  {
+    "source": "NPB_4_S2",
+    "target": "NPB_5_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 5."
+  },
+  {
+    "source": "NPB_5_S2",
+    "target": "NPB_4_S2",
+    "weight": 20,
+    "instruction": "Take the stairs to floor 4."
   }
 ]
