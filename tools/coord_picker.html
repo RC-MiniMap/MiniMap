@@ -759,6 +759,30 @@ function redraw() {
   }
 }
 
+/* ── keyboard shortcuts ──────────────────────────────── */
+window.addEventListener('keydown', e => {
+  // Ctrl+I / Cmd+I: add spine
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') {
+    e.preventDefault();
+    if (!nodes.length) { setStatus('Load nodes.json first.'); return; }
+    const building = getBuilding();
+    const floor = parseInt(getFloor());
+    const regex = new RegExp(`^${building}_${floor}_spine_(\\d+)$`, 'i');
+    let max = 0;
+    nodes.forEach(n => {
+      const m = n.id.match(regex);
+      if (m) max = Math.max(max, parseInt(m[1]));
+    });
+    const next = max + 1;
+    const id = `${building}_${floor}_spine_${next}`;
+    nodes.push({ id, name: `spine ${next}`, type: 'spine', building, coords: [null, null], floor });
+    selectedNodeId = id;
+    renderList();
+    redraw();
+    setStatus(`Added ${id}`);
+  }
+});
+
 /* ── init ──────────────────────────────────────────────── */
 resize();
 setMode('place');
