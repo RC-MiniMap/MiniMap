@@ -386,12 +386,8 @@
 
   // ── Quarter-foot helper ─────────────────────────────────────────────────────
   function roundQuarterFoot(val) {
+    if (!snapGrid) return val;
     return Math.round(val * 4) / 4;
-  }
-
-  function snapCoordsToQuarter(coords) {
-    if (!snapGrid) return coords;
-    return [roundQuarterFoot(coords[0]), roundQuarterFoot(coords[1])];
   }
 
   // ── File loaders ───────────────────────────────────────────────────────────
