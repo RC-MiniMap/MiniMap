@@ -38,7 +38,7 @@ Flask app factory: `run.py` → `create_app()` → single blueprint registered f
 
 - Node IDs: `{BUILDING}_{FLOOR}_{SUFFIX}` — e.g. `NPB_5_102`, `NPB_4_E1`, `NPB_3_stairs_main`
 - Node types: `room`, `staircase`, `elevator`, `waypoint`, `spine`
-- Edges are **directional and paired** — each physical connection needs two edge objects with different `instruction` strings. Weight = pixel distance.
+- Edges are **directional and paired** — each physical connection needs two edge objects with different `instruction` strings. Weight = distance in the same unit as node coordinates (feet in the current data).
 - `get_options()`: entrances = `type in ("elevator", "staircase")`, destinations = `type == "room"`
 
 ## Standalone tools (not imported by the app)
