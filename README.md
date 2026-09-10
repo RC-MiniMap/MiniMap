@@ -70,8 +70,8 @@ campus_navigator/
 │   ├── routes.py                ← Handles URLs: connects user input → logic → webpage
 │   │
 │   ├── logic/                   ← The "brain" of the app (pathfinding code)
-│   │   ├── __init__.py          ← Exports core pathfinding functions for easy imports
-│   │   └── graph_manager.py     ← Loads building data, runs NetworkX, returns directions
+│   │   ├── __init__.py          ← Exports the navigation interface
+│   │   └── navigation.py        ← Builds complete route outcomes from form input
 │   │
 │   ├── static/                  ← Files the browser downloads directly
 │   │   ├── css/
@@ -105,13 +105,12 @@ User types "Room 101" and clicks Go
         ↓
 routes.py receives the form input
         ↓
-routes.py calls graph_manager.py with (start="Entrance", end="Room 101")
+routes.py passes the form to navigation.py
         ↓
-graph_manager.py loads nodes.json and edges.json
-graph_manager.py runs NetworkX shortest_path()
-graph_manager.py returns: text directions + pixel coordinates
+navigation.py loads map facts and runs NetworkX shortest_path()
+navigation.py returns one outcome with status, directions, floors, and map-ready data
         ↓
-routes.py passes results to index.html (via Flask's render_template)
+routes.py passes that outcome to index.html (via Flask's render_template)
         ↓
 index.html displays the step-by-step text directions
 map.js reads the coordinates and draws the blue line over a coordinate grid
@@ -133,9 +132,9 @@ Walk the building and define the graph. Every intersection, staircase, entrance,
 
 ### ⚙️ Backend (1–2 people)
 
-**Workspace: `app/logic/graph_manager.py`**
+**Workspace: `app/logic/navigation.py`**
 
-Write the Python function that loads the JSON files, builds the NetworkX graph, and returns both text directions and the coordinate list for the route. This can be built and tested as a standalone Python script — no webpage needed.
+Keep route rules behind the `navigate()` interface. It loads the JSON files, builds the NetworkX graph, describes floor transitions, and decides whether the route has map-ready data. Test behavior through the complete outcome returned by `navigate()`.
 
 ### 🎨 Frontend (1–2 people)
 

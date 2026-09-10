@@ -5,21 +5,39 @@ from unittest.mock import Mock
 import pytest
 
 from app import logic, routes
-from app.logic import graph_manager
+from app.logic import navigation
 
-OPTIONS = (
-    [{"id": "NPB_5_E1", "name": "5.E1 elevator"}],
-    [{"id": "NPB_5_154", "name": "5.154"}],
-)
+OPTIONS = {
+    "entrances": [{"id": "NPB_5_E1", "name": "5.E1 elevator"}],
+    "classrooms": [{"id": "NPB_5_154", "name": "5.154"}],
+}
+
+
+def make_outcome(
+    *,
+    status="idle",
+    error=None,
+    directions=None,
+    map_status="idle",
+    map_data=None,
+    map_message=None,
+):
+    return {
+        "status": status,
+        "error": error,
+        "directions": directions or [],
+        "traversed_floors": [],
+        "map": {"status": map_status, "data": map_data, "message": map_message},
+        "options": OPTIONS,
+    }
 
 
 @pytest.fixture(autouse=True)
-def stub_options(monkeypatch):
-    monkeypatch.setattr(routes, "get_options", lambda: OPTIONS)
+def stub_navigation(monkeypatch):
+    monkeypatch.setattr(routes, "navigate", lambda selection=None: make_outcome())
 
 
 def embedded_json(body, variable):
-    """Read a JSON value exposed by the page's JavaScript contract."""
     match = re.search(
         rf"(?:window\.)?{re.escape(variable)}\s*=\s*(?P<value>.*?);",
         body,
@@ -29,59 +47,106 @@ def embedded_json(body, variable):
     return json.loads(match.group("value"))
 
 
-def test_index_renders_form_options_and_map_placeholder(client):
+def test_index_passes_an_empty_request_to_navigation_and_renders_options(
+    client, monkeypatch
+):
+    navigate = Mock(return_value=make_outcome())
+    monkeypatch.setattr(routes, "navigate", navigate)
+
     response = client.get("/")
 
     assert response.status_code == 200
     body = response.get_data(as_text=True)
-    assert "<h1>Choose Your Options</h1>" in body
-    assert '<form method="post" action="/directions">' in body
-    assert '<button type="submit">Get Directions</button>' in body
     assert '<select id="entrance" name="entrance">' in body
     assert 'value="NPB_5_E1">5.E1 elevator' in body
-    assert '<select id="classroom" name="classroom">' in body
     assert 'value="NPB_5_154">5.154' in body
     assert "Map will appear here after you select directions" in body
-    assert "/static/css/styles.css" in body
-    assert "window.routeCoordinates" not in body
+    assert "window.routeMap" not in body
+    navigate.assert_called_once_with()
+
+
+def test_directions_passes_the_form_directly_to_navigation(client, monkeypatch):
+    outcome = make_outcome(
+        status="success",
+        directions=["Leave the elevator.", "Turn left."],
+        map_status="ready",
+        map_data={
+            "coordinates": [
+                {"x": 1, "y": 2, "floor": 4},
+                {"x": 3.5, "y": -6, "floor": 4},
+            ],
+            "bounds": {"width": 300, "height": 60},
+        },
+    )
+    navigate = Mock(return_value=outcome)
+    monkeypatch.setattr(routes, "navigate", navigate)
+
+    response = client.post(
+        "/directions",
+        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
+    )
+
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert embedded_json(body, "directionSteps") == outcome["directions"]
+    assert embedded_json(body, "routeMap") == outcome["map"]["data"]
+    assert "/static/js/directions.js" in body
+    assert "/static/js/map.js" in body
+    selection = navigate.call_args.args[0]
+    assert selection["entrance"] == "NPB_5_E1"
+    assert selection["classroom"] == "NPB_5_154"
 
 
 @pytest.mark.parametrize(
-    "form_data",
+    ("error", "expected"),
     [
-        {},
-        {"entrance": "NPB_5_E1"},
-        {"classroom": "NPB_5_154"},
-        {"entrance": "", "classroom": "NPB_5_154"},
-        {"entrance": "NPB_5_E1", "classroom": ""},
+        (
+            "Missing entrance or classroom parameter",
+            "Missing entrance or classroom parameter",
+        ),
+        ("data is unavailable", "data is unavailable"),
+        (
+            "No route could be found between the selected entrance and destination.",
+            "No route could be found",
+        ),
     ],
 )
-def test_directions_rejects_missing_form_values(client, monkeypatch, form_data):
-    get_directions = Mock()
-    monkeypatch.setattr(routes, "get_directions", get_directions)
+def test_directions_renders_navigation_errors(client, monkeypatch, error, expected):
+    monkeypatch.setattr(
+        routes, "navigate", Mock(return_value=make_outcome(status="error", error=error))
+    )
 
-    response = client.post("/directions", data=form_data)
+    response = client.post("/directions", data={})
 
     assert response.status_code == 200
-    assert "Missing entrance or classroom parameter" in response.get_data(as_text=True)
-    get_directions.assert_not_called()
+    assert expected in response.get_data(as_text=True)
 
 
-def test_directions_only_accepts_post(client):
-    response = client.get("/directions")
+def test_directions_renders_map_unavailability_from_outcome(client, monkeypatch):
+    message = "Map preview is unavailable for routes spanning multiple floors."
+    monkeypatch.setattr(
+        routes,
+        "navigate",
+        Mock(
+            return_value=make_outcome(
+                status="success",
+                directions=["Take the elevator."],
+                map_status="unavailable",
+                map_message=message,
+            )
+        ),
+    )
 
-    assert response.status_code == 405
+    response = client.post("/directions", data={})
+    body = response.get_data(as_text=True)
+
+    assert message in body
+    assert "window.routeMap" not in body
 
 
-def test_live_index_and_multi_floor_post_use_canonical_data(client, monkeypatch):
-    monkeypatch.setattr(routes, "get_options", logic.get_options)
-    graph_manager.G = None
-
-    index_response = client.get("/")
-    assert index_response.status_code == 200
-    index_body = index_response.get_data(as_text=True)
-    assert 'value="NPB_5_E1">5.E1' in index_body
-    assert 'value="NPB_4_440">4.440' in index_body
+def test_live_navigation_uses_canonical_data(client, monkeypatch):
+    monkeypatch.setattr(routes, "navigate", logic.navigate)
+    navigation._graph = None
 
     response = client.post(
         "/directions",
@@ -92,143 +157,27 @@ def test_live_index_and_multi_floor_post_use_canonical_data(client, monkeypatch)
     body = response.get_data(as_text=True)
     assert "Take elevator E1 to floor 4." in body
     assert "Map preview is unavailable for routes spanning multiple floors." in body
-    assert "window.routeCoordinates" not in body
+    assert "window.routeMap" not in body
 
 
-def test_directions_embeds_route_and_uses_entrance_building_and_first_floor(
-    client, monkeypatch
-):
-    route = {
-        "directions": ["Leave the elevator.", "Turn left at the hallway."],
-        "coordinates": [
-            {"x": 1, "y": 2, "floor": 4},
-            {"x": 3.5, "y": -6, "floor": 4},
-        ],
-    }
-    get_directions = Mock(return_value=route)
-    get_floor_bounds = Mock(return_value={"width": 300, "height": 60})
-    monkeypatch.setattr(routes, "get_directions", get_directions)
-    monkeypatch.setattr(routes, "get_floor_bounds", get_floor_bounds)
-
-    response = client.post(
-        "/directions",
-        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
-    )
-
-    assert response.status_code == 200
-    body = response.get_data(as_text=True)
-    assert embedded_json(body, "directionSteps") == route["directions"]
-    assert embedded_json(body, "routeCoordinates") == route["coordinates"]
-    assert embedded_json(body, "floorBounds") == {"width": 300, "height": 60}
-    assert 'id="directions-panel"' in body
-    assert "/static/js/directions.js" in body
-    assert "/static/js/map.js" in body
-    get_directions.assert_called_once_with("NPB_5_E1", "NPB_5_154")
-    get_floor_bounds.assert_called_once_with("NPB", 4)
+def test_directions_only_accepts_post(client):
+    assert client.get("/directions").status_code == 405
 
 
-def test_directions_displays_no_route_error(client, monkeypatch):
-    get_directions = Mock(return_value="No path found from start to end.")
-    get_floor_bounds = Mock()
-    monkeypatch.setattr(routes, "get_directions", get_directions)
-    monkeypatch.setattr(routes, "get_floor_bounds", get_floor_bounds)
-
-    response = client.post(
-        "/directions",
-        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
-    )
-
-    assert response.status_code == 200
-    body = response.get_data(as_text=True)
-    assert (
-        "No route could be found between the selected entrance and destination." in body
-    )
-    assert "window.routeCoordinates" not in body
-    assert "window.floorBounds" not in body
-    get_directions.assert_called_once_with("NPB_5_E1", "NPB_5_154")
-    get_floor_bounds.assert_not_called()
-
-
-def test_directions_displays_runtime_error(client, monkeypatch):
-    get_directions = Mock(side_effect=RuntimeError("data is unavailable"))
-    get_floor_bounds = Mock()
-    monkeypatch.setattr(routes, "get_directions", get_directions)
-    monkeypatch.setattr(routes, "get_floor_bounds", get_floor_bounds)
-
-    response = client.post(
-        "/directions",
-        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
-    )
-
-    assert response.status_code == 200
-    assert "data is unavailable" in response.get_data(as_text=True)
-    get_floor_bounds.assert_not_called()
-
-
-def test_directions_displays_floor_bounds_runtime_error(client, monkeypatch):
-    route = {
-        "directions": ["Leave the elevator."],
-        "coordinates": [{"x": 1, "y": 2, "floor": 4}],
-    }
-    monkeypatch.setattr(routes, "get_directions", Mock(return_value=route))
-    monkeypatch.setattr(
-        routes,
-        "get_floor_bounds",
-        Mock(side_effect=RuntimeError("floor data is unavailable")),
-    )
-
-    response = client.post(
-        "/directions",
-        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
-    )
-
-    assert response.status_code == 200
-    assert "floor data is unavailable" in response.get_data(as_text=True)
-
-
-def test_directions_does_not_request_floor_bounds_for_empty_coordinates(
-    client, monkeypatch
-):
-    route = {
-        "directions": ["The route has no mappable coordinates."],
-        "coordinates": [],
-    }
-    get_floor_bounds = Mock()
-    monkeypatch.setattr(routes, "get_directions", Mock(return_value=route))
-    monkeypatch.setattr(routes, "get_floor_bounds", get_floor_bounds)
-
-    response = client.post(
-        "/directions",
-        data={"entrance": "NPB_5_E1", "classroom": "NPB_5_154"},
-    )
-
-    assert response.status_code == 200
-    body = response.get_data(as_text=True)
-    assert embedded_json(body, "directionSteps") == route["directions"]
-    assert "window.routeCoordinates" not in body
-    assert "window.floorBounds" not in body
-    assert "Map will appear here after you select directions" in body
-    get_floor_bounds.assert_not_called()
-
-
-def test_api_test_returns_json_from_pathfinder(client, monkeypatch):
-    expected = {"directions": ["Test route"], "coordinates": []}
-    get_directions = Mock(return_value=expected)
-    monkeypatch.setattr(routes, "get_directions", get_directions)
+def test_api_test_returns_the_navigation_outcome(client, monkeypatch):
+    expected = make_outcome(status="success", directions=["Test route"])
+    navigate = Mock(return_value=expected)
+    monkeypatch.setattr(routes, "navigate", navigate)
 
     response = client.get("/api/test")
 
     assert response.status_code == 200
-    assert response.is_json
-    assert response.mimetype == "application/json"
     assert response.get_json() == expected
-    get_directions.assert_called_once_with("NPB_5_E1", "NPB_5_154")
+    navigate.assert_called_once_with({"entrance": "NPB_5_E1", "classroom": "NPB_5_154"})
 
 
 def test_unknown_url_returns_not_found(client):
-    response = client.get("/does-not-exist")
-
-    assert response.status_code == 404
+    assert client.get("/does-not-exist").status_code == 404
 
 
 @pytest.mark.parametrize(

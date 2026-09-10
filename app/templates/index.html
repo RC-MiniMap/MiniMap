@@ -15,7 +15,7 @@
                 <form method="post" action="/directions">
                     <label for="entrance">Select Entrance Option:</label>
                     <select id="entrance" name="entrance">
-                        {% for opt in entranceOptions %}
+                        {% for opt in outcome.options.entrances %}
                             <option value="{{ opt.id }}">{{ opt.name }}</option>
                         {% endfor %}
                     </select>
@@ -23,7 +23,7 @@
                     <br>
                     <label for="classroom">Select Classroom Option:</label>
                     <select id="classroom" name="classroom">
-                        {% for opt in classroomOptions %}
+                        {% for opt in outcome.options.classrooms %}
                             <option value="{{ opt.id }}">{{ opt.name }}</option>
                         {% endfor %}
                     </select>
@@ -46,35 +46,24 @@
                             No Preference
                         </label>
                     </div>
-                    {% if error %}
+                    {% if outcome.error %}
                         <div class="error-box">
-                            <p style = "color: red">{{ error }}</p>
+                            <p style="color: red">{{ outcome.error }}</p>
                         </div>
                     {% endif %}
-                    {% if steps %}
+                    {% if outcome.directions %}
                         <div id="directions-panel" class="directions-box">
                             <h2>Directions</h2>
                             <div id="directions-card-container"></div>
-                            <script>const directionSteps= {{  steps | tojson }};</script>
-                            <script src="{{ url_for('static', filename='js/directions.js')}}"></script>
+                            <script>const directionSteps = {{ outcome.directions | tojson }};</script>
+                            <script src="{{ url_for('static', filename='js/directions.js') }}"></script>
                         </div>
                     {% endif %}
                 </div>
                 <div class="right-panel">
-                    {% if map_error %}
-                        <div id="map"
-                             style="background: #f4f5f7;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center">
-                            <p style="color: #999;">{{ map_error }}</p>
-                        </div>
-                    {% elif coordinates %}
+                    {% if outcome.map.status == "ready" %}
                         <div id="map"></div>
-                        <script>
-            window.routeCoordinates = {{ coordinates | tojson }};
-            window.floorBounds = {{ floor_bounds | tojson }};
-                        </script>
+                        <script>window.routeMap = {{ outcome.map.data | tojson }};</script>
                         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
                         <script src="{{ url_for('static', filename='js/map.js') }}"></script>
                     {% else %}
@@ -83,7 +72,7 @@
                                     display: flex;
                                     align-items: center;
                                     justify-content: center">
-                            <p style="color: #999;">Map will appear here after you select directions</p>
+                            <p style="color: #999;">{{ outcome.map.message or "Map will appear here after you select directions" }}</p>
                         </div>
                     {% endif %}
                 </div>

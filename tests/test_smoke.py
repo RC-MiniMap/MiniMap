@@ -8,12 +8,12 @@ import pytest
 def test_app_factory_registers_blueprint_without_loading_graph(monkeypatch):
     """Creating the Flask app must not read or build the graph."""
     from app import create_app
-    from app.logic import graph_manager
+    from app.logic import navigation
 
-    read_json_files = Mock(side_effect=AssertionError("graph data loaded too early"))
-    build_graph = Mock(side_effect=AssertionError("graph built too early"))
-    monkeypatch.setattr(graph_manager, "read_json_files", read_json_files)
-    monkeypatch.setattr(graph_manager, "build_graph", build_graph)
+    load_map_facts = Mock(side_effect=AssertionError("map data loaded too early"))
+    get_graph = Mock(side_effect=AssertionError("graph built too early"))
+    monkeypatch.setattr(navigation, "_load_map_facts", load_map_facts)
+    monkeypatch.setattr(navigation, "_get_graph", get_graph)
 
     app = create_app()
 
@@ -25,8 +25,8 @@ def test_app_factory_registers_blueprint_without_loading_graph(monkeypatch):
     assert rules["/"].endpoint == "main.index"
     assert rules["/directions"].endpoint == "main.directions"
     assert rules["/api/test"].endpoint == "main.test"
-    read_json_files.assert_not_called()
-    build_graph.assert_not_called()
+    load_map_facts.assert_not_called()
+    get_graph.assert_not_called()
 
 
 @pytest.mark.parametrize(

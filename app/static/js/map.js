@@ -1,25 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const { routeCoordinates, floorBounds } = window;
-  if (!routeCoordinates || !floorBounds) {
-    console.error("routeCoordinates or floorBounds missing from template");
+  const { routeMap } = window;
+  if (!routeMap) {
+    console.error("routeMap missing from template");
     return;
   }
   if (!window.L) {
     console.error("Leaflet is missing from the page");
     return;
   }
-  if (!Array.isArray(routeCoordinates)) {
-    console.error("routeCoordinates must be an array");
-    return;
-  }
 
-  const floors = new Set(
-    routeCoordinates
-      .map((coordinate) => coordinate.floor)
-      .filter((floor) => floor !== undefined),
-  );
-  if (floors.size > 1) {
-    console.error("Map preview only supports routes on one floor");
+  const { coordinates, bounds: floorBounds } = routeMap;
+  if (!Array.isArray(coordinates) || !floorBounds) {
+    console.error("routeMap must contain coordinates and bounds");
     return;
   }
 
@@ -77,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   drawGrid();
 
   // Convert backend coordinates → Leaflet [lat, lng]
-  const latlngs = routeCoordinates.map((c) => [c.y, c.x]);
+  const latlngs = coordinates.map((coordinate) => [coordinate.y, coordinate.x]);
 
   if (latlngs.length > 0) {
     // Draw animated route line
