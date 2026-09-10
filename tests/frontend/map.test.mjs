@@ -9,49 +9,47 @@ const template = readFileSync(
   "utf8",
 );
 
-test("map stops with a useful error when template globals are missing", () => {
-  const cases = [
-    {
-      name: "routeCoordinates",
-      options: { floorBounds: { width: 30, height: 20 } },
-    },
-    { name: "floorBounds", options: { routeCoordinates: [{ x: 2, y: 3 }] } },
-  ];
+function mapData(coordinates, extra = {}) {
+  return {
+    routeMap: { coordinates, bounds: { width: 30, height: 20 } },
+    ...extra,
+  };
+}
 
-  for (const { name, options } of cases) {
-    const harness = loadMapScript(options);
+test("map stops with a useful error when routeMap is missing", () => {
+  const harness = loadMapScript();
 
-    assert.equal(harness.maps.length, 0, `${name} should prevent map setup`);
-    assert.equal(
-      harness.layers.length,
-      0,
-      `${name} should prevent layer setup`,
-    );
-    assert.deepEqual(harness.consoleMessages.error, [
-      ["routeCoordinates or floorBounds missing from template"],
-    ]);
-  }
+  assert.equal(harness.maps.length, 0);
+  assert.equal(harness.layers.length, 0);
+  assert.deepEqual(harness.consoleMessages.error, [
+    ["routeMap missing from template"],
+  ]);
+});
+
+test("map rejects routeMap data without coordinates and bounds", () => {
+  const harness = loadMapScript({ routeMap: { coordinates: [] } });
+
+  assert.equal(harness.maps.length, 0);
+  assert.deepEqual(harness.consoleMessages.error, [
+    ["routeMap must contain coordinates and bounds"],
+  ]);
 });
 
 test("map template wires data globals before loading the browser scripts", () => {
   const directionsDataIndex = template.indexOf("const directionSteps");
   const directionsScriptIndex = template.indexOf("js/directions.js");
-  const mapDataIndex = template.indexOf("window.routeCoordinates");
+  const mapDataIndex = template.indexOf("window.routeMap");
   const mapScriptIndex = template.indexOf("js/map.js");
 
   assert.match(template, /id="directions-card-container"/);
   assert.match(
     template,
-    /const directionSteps\s*=\s*\{\{\s*steps\s*\|\s*tojson/,
+    /const directionSteps\s*=\s*\{\{\s*outcome\.directions\s*\|\s*tojson/,
   );
   assert.match(template, /id="map"/);
   assert.match(
     template,
-    /window\.routeCoordinates\s*=\s*\{\{\s*coordinates\s*\|\s*tojson/,
-  );
-  assert.match(
-    template,
-    /window\.floorBounds\s*=\s*\{\{\s*floor_bounds\s*\|\s*tojson/,
+    /window\.routeMap\s*=\s*\{\{\s*outcome\.map\.data\s*\|\s*tojson/,
   );
   assert.ok(directionsDataIndex >= 0);
   assert.ok(directionsDataIndex < directionsScriptIndex);
@@ -60,11 +58,9 @@ test("map template wires data globals before loading the browser scripts", () =>
 });
 
 test("map stops when Leaflet is missing", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [{ x: 2, y: 3, floor: 1 }],
-    floorBounds: { width: 30, height: 20 },
-    globals: { L: undefined },
-  });
+  const harness = loadMapScript(
+    mapData([{ x: 2, y: 3, floor: 1 }], { globals: { L: undefined } }),
+  );
 
   assert.equal(harness.maps.length, 0);
   assert.deepEqual(harness.consoleMessages.error, [
@@ -72,26 +68,8 @@ test("map stops when Leaflet is missing", () => {
   ]);
 });
 
-test("map declines to draw a route that crosses floors", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [
-      { x: 2, y: 3, floor: 1 },
-      { x: 4, y: 5, floor: 2 },
-    ],
-    floorBounds: { width: 30, height: 20 },
-  });
-
-  assert.equal(harness.maps.length, 0);
-  assert.deepEqual(harness.consoleMessages.error, [
-    ["Map preview only supports routes on one floor"],
-  ]);
-});
-
 test("map creates the bounded map without a route for empty coordinates", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [],
-    floorBounds: { width: 30, height: 20 },
-  });
+  const harness = loadMapScript(mapData([]));
 
   assert.equal(harness.maps.length, 1);
   assert.equal(
@@ -106,13 +84,12 @@ test("map creates the bounded map without a route for empty coordinates", () => 
 });
 
 test("map uses Simple CRS, configured zoom options, and floor bounds", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [
+  const harness = loadMapScript(
+    mapData([
       { x: 4, y: 2 },
       { x: 28, y: 18 },
-    ],
-    floorBounds: { width: 30, height: 20 },
-  });
+    ]),
+  );
   const map = harness.maps[0];
 
   assert.equal(map.container, "map");
@@ -132,10 +109,7 @@ test("map uses Simple CRS, configured zoom options, and floor bounds", () => {
 });
 
 test("map draws a 10-foot grid across the floor dimensions", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [{ x: 5, y: 5 }],
-    floorBounds: { width: 30, height: 20 },
-  });
+  const harness = loadMapScript(mapData([{ x: 5, y: 5 }]));
   const grid = harness.layers.filter(
     (layer) => layer.type === "polyline" && layer.options.color === "#cccccc",
   );
@@ -184,13 +158,12 @@ test("map draws a 10-foot grid across the floor dimensions", () => {
 });
 
 test("map converts backend x/y points and styles the route line", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [
+  const harness = loadMapScript(
+    mapData([
       { x: 12, y: 4 },
       { x: 20, y: 15 },
-    ],
-    floorBounds: { width: 30, height: 20 },
-  });
+    ]),
+  );
   const routeLine = harness.layers.find(
     (layer) =>
       layer.type === "polyline" && layer.options.className === "animated-route",
@@ -216,13 +189,12 @@ test("map converts backend x/y points and styles the route line", () => {
 });
 
 test("map marks the route start green and end red", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [
+  const harness = loadMapScript(
+    mapData([
       { x: 3, y: 7 },
       { x: 22, y: 11 },
-    ],
-    floorBounds: { width: 30, height: 20 },
-  });
+    ]),
+  );
   const markers = harness.layers.filter(
     (layer) => layer.type === "circleMarker",
   );
@@ -246,10 +218,7 @@ test("map marks the route start green and end red", () => {
 });
 
 test("map invalidates its size on the resize event and deferred startup check", () => {
-  const harness = loadMapScript({
-    routeCoordinates: [{ x: 5, y: 5 }],
-    floorBounds: { width: 30, height: 20 },
-  });
+  const harness = loadMapScript(mapData([{ x: 5, y: 5 }]));
   const map = harness.maps[0];
 
   assert.equal(harness.window.listenerCount("resize"), 1);

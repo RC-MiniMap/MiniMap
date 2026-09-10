@@ -410,8 +410,7 @@ function createConsoleRecorder() {
  */
 export function createBrowserHarness({
   directionSteps,
-  routeCoordinates,
-  floorBounds,
+  routeMap,
   windowProperties = {},
   globals = {},
 } = {}) {
@@ -437,11 +436,8 @@ export function createBrowserHarness({
   if (directionSteps !== undefined) {
     window.directionSteps = directionSteps;
   }
-  if (routeCoordinates !== undefined) {
-    window.routeCoordinates = routeCoordinates;
-  }
-  if (floorBounds !== undefined) {
-    window.floorBounds = floorBounds;
+  if (routeMap !== undefined) {
+    window.routeMap = routeMap;
   }
   document.defaultView = window;
 
@@ -476,11 +472,8 @@ export function createBrowserHarness({
   if (directionSteps !== undefined) {
     context.directionSteps = directionSteps;
   }
-  if (routeCoordinates !== undefined) {
-    context.routeCoordinates = routeCoordinates;
-  }
-  if (floorBounds !== undefined) {
-    context.floorBounds = floorBounds;
+  if (routeMap !== undefined) {
+    context.routeMap = routeMap;
   }
 
   const harness = {
@@ -560,8 +553,7 @@ function prepareLoad(scriptOptions) {
     options.harness ??
     createBrowserHarness({
       directionSteps: options.directionSteps,
-      routeCoordinates: options.routeCoordinates,
-      floorBounds: options.floorBounds,
+      routeMap: options.routeMap,
       windowProperties: options.windowProperties,
       globals: options.globals,
     });
@@ -573,13 +565,9 @@ function applyGlobals(harness, options) {
     harness.window.directionSteps = options.directionSteps;
     harness.context.directionSteps = options.directionSteps;
   }
-  if (options.routeCoordinates !== undefined) {
-    harness.window.routeCoordinates = options.routeCoordinates;
-    harness.context.routeCoordinates = options.routeCoordinates;
-  }
-  if (options.floorBounds !== undefined) {
-    harness.window.floorBounds = options.floorBounds;
-    harness.context.floorBounds = options.floorBounds;
+  if (options.routeMap !== undefined) {
+    harness.window.routeMap = options.routeMap;
+    harness.context.routeMap = options.routeMap;
   }
   for (const [name, value] of Object.entries(options.globals ?? {})) {
     harness.window[name] = value;
