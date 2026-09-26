@@ -7,11 +7,14 @@ bp = Blueprint("main", __name__)
 
 @bp.route("/", methods=["GET"])
 def index():
-    return render_template("index.html", outcome=navigate())
+    return render_template(
+        "index.html", outcome=navigate()
+    )  # navigate() is called with empty parameters, returning an empty dict
 
 
-@bp.route("/directions", methods=["POST"])
+@bp.route("/directions", methods=["POST"])  # POST request data from frontend
 def directions():
+    # Simple navigate() call to the backend, requesting outcome data from the form submitted by the POST request
     return render_template("index.html", outcome=navigate(request.form))
 
 

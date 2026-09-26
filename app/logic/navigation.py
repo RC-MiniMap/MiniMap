@@ -11,7 +11,7 @@ _graph: nx.DiGraph | None = None
 
 
 def navigate(selection: Mapping[str, str] | None = None) -> dict[str, Any]:
-    """Build the complete template model for one navigation request."""
+    """Build a complete template model for one navigation request."""
     try:
         nodes, edges, floors = _load_map_facts()
     except RuntimeError as exc:
@@ -113,6 +113,7 @@ def _load_map_facts() -> tuple[list[dict], list[dict], dict]:
 
 
 def _read_json(filename: str, label: str):
+    """Read json data from given filename, return dict"""
     path = _DATA_DIR / filename
     try:
         with path.open("r", encoding="utf-8") as file:
@@ -122,6 +123,7 @@ def _read_json(filename: str, label: str):
 
 
 def _options(nodes: list[dict], node_types: set[str]) -> list[dict[str, str]]:
+    """Given a dict of nodes and a set of node types, return a list of dicts filtered by the set of node types"""
     return [
         {"id": node["id"], "name": node["name"]}
         for node in nodes
@@ -130,6 +132,7 @@ def _options(nodes: list[dict], node_types: set[str]) -> list[dict[str, str]]:
 
 
 def _get_graph(nodes: list[dict], edges: list[dict]) -> nx.DiGraph:
+    """If nonexistent, DiGraph is built from nodes and edges"""
     global _graph
     if _graph is None:
         graph = nx.DiGraph()
@@ -160,6 +163,7 @@ def _describe_path(
 
 
 def _coordinate(node: dict) -> dict[str, int | float]:
+    """Given a node (dict) return a dict with 3 keys: x, y, and floor"""
     return {"x": node["coords"][0], "y": node["coords"][1], "floor": node["floor"]}
 
 
@@ -176,10 +180,15 @@ def _transition_instruction(current: dict, next_node: dict, edge: dict) -> str:
     return f"Move from floor {current['floor']} to floor {next_node['floor']}."
 
 
-def _floor_bounds(floors: dict, building: str, floor: int) -> dict[str, Any]:
-    floor_key = str(floor)
+def _floor_bounds(floors: dict, building: str, floor: int) -> dict[str, int | float]:
+    """Given floors data dict, building str, and floor number, return floor bounds as a simple width and height dict"""
+    floor_key = str(floor) # convert int representation of floor into a str
     try:
-        floor_info = floors[building][floor_key]
+        floor_info = floors[building][floor_key] 
+        # extract floor metadata from specific building and floor
     except KeyError as exc:
+        # key not found, meaning either floor or building data isn't present
         raise RuntimeError(f"No floor data for {building} floor {floor_key}") from exc
-    return {"width": floor_info["width_feet"], "height": floor_info["height_feet"]}
+    return {"width": floor_info["width_feet"], "height": floor_info["height_feet"]} # return floor bounds as simple width and height dict
+
+
